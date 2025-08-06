@@ -33,9 +33,10 @@ import TokenDetailPage from './TokenDetailPage';
 import './MWMonitor.css';
 
 // Stream Analysis Modal Component
-const StreamAnalysisModal = ({ isOpen, onClose, streamData, initialView = 'detailed' }) => {
+const StreamAnalysisModal = ({ isOpen, onClose, streamData, initialView = 'detailed', isToday = false, onBackToLibrary = null }) => {
   const [modalView, setModalView] = useState(initialView); // detailed, timeline, screenshots, rawdata
   const [selectedToken, setSelectedToken] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Reset view when modal opens
   useEffect(() => {
@@ -611,7 +612,15 @@ const StreamAnalysis = ({ streamData, isToday = false, onBackToLibrary = null })
         onClose={() => setIsModalOpen(false)}
         streamData={streamData}
         initialView={modalView}
+        isToday={isToday}
+        onBackToLibrary={onBackToLibrary}
       />
+    </div>
+  );
+
+  return (
+    <div className="stream-analysis">
+      {renderStreamOverview()}
     </div>
   );
 };
