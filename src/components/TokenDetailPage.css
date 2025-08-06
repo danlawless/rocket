@@ -312,19 +312,61 @@
   color: #ffaa00;
 }
 
-.tradingview-container {
-  height: 600px;
-  background: #0a0a0a;
-}
-
-.chart-loading {
-  height: 600px;
+.chart-placeholder {
+  height: 400px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #0a0a0a;
-  gap: 1rem;
+}
+
+.placeholder-content {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.placeholder-content svg {
+  color: #00FF88;
+  margin-bottom: 1rem;
+  opacity: 0.7;
+}
+
+.placeholder-content h4 {
+  color: #ffffff;
+  margin: 0.5rem 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.placeholder-content p {
+  color: rgba(255, 255, 255, 0.4);
+  margin: 0.5rem 0 1rem 0;
+  font-size: 0.9rem;
+}
+
+.placeholder-stats {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.placeholder-stats span {
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.placeholder-stats .positive {
+  color: #00FF88;
+}
+
+.placeholder-stats .negative {
+  color: #FF4757;
 }
 
 .key-insights-section {

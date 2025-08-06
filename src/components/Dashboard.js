@@ -308,7 +308,7 @@ const Dashboard = () => {
                   <div className="token-section">
                     <div className="token-icon">
                       <img 
-                        src={`https://cryptologos.cc/logos/${setup.token.toLowerCase()}-${setup.token.toLowerCase()}-logo.png`}
+                        src={`https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/${setup.token.toLowerCase()}.png`}
                         alt={setup.token}
                         onError={(e) => {
                           e.target.style.display = 'none';

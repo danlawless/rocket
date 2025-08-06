@@ -27,88 +27,52 @@ import './TokenDetailPage.css';
 const TokenDetailPage = ({ tokenSymbol, onBack }) => {
   const [tokenData, setTokenData] = useState(null);
   const [activeTab, setActiveTab] = useState('overview');
-  const [chartReady, setChartReady] = useState(false);
 
   useEffect(() => {
-    const data = getTokenDetailData(tokenSymbol);
-    setTokenData(data);
-    
-    // Initialize TradingView chart
-    if (tokenSymbol && window.TradingView) {
-      initTradingViewChart();
-    } else {
-      // Load TradingView script if not already loaded
-      loadTradingViewScript();
+    if (!tokenSymbol || typeof tokenSymbol !== 'string') {
+      console.warn('Invalid tokenSymbol provided:', tokenSymbol);
+      return;
     }
+    
+    const data = getTokenDetailData(tokenSymbol);
+    if (!data) {
+      console.warn('No token data found for:', tokenSymbol);
+      return;
+    }
+    
+    setTokenData(data);
   }, [tokenSymbol]);
 
-  const loadTradingViewScript = () => {
-    if (document.getElementById('tradingview-script')) return;
-    
-    const script = document.createElement('script');
-    script.id = 'tradingview-script';
-    script.src = 'https://s3.tradingview.com/tv.js';
-    script.onload = () => {
-      initTradingViewChart();
-    };
-    document.head.appendChild(script);
+
+
+  // Data validation helpers
+  const validateNumeric = (value, defaultValue = 0) => {
+    const num = Number(value);
+    return isNaN(num) ? defaultValue : num;
   };
 
-  const initTradingViewChart = () => {
-    if (!window.TradingView) return;
-    
-    // Clear previous chart
-    const container = document.getElementById('tradingview-chart');
-    if (container) {
-      container.innerHTML = '';
-    }
-
-    new window.TradingView.widget({
-      autosize: true,
-      symbol: `BINANCE:${tokenSymbol}USDT`,
-      interval: '4h',
-      timezone: 'Etc/UTC',
-      theme: 'dark',
-      style: '1',
-      locale: 'en',
-      toolbar_bg: '#0a0a0a',
-      enable_publishing: false,
-      hide_side_toolbar: false,
-      allow_symbol_change: false,
-      container_id: 'tradingview-chart',
-      studies: [
-        'RSI@tv-basicstudies',
-        'MACD@tv-basicstudies',
-        'BB@tv-basicstudies'
-      ],
-      overrides: {
-        'paneProperties.background': '#0a0a0a',
-        'paneProperties.vertGridProperties.color': 'rgba(255, 255, 255, 0.1)',
-        'paneProperties.horzGridProperties.color': 'rgba(255, 255, 255, 0.1)',
-        'symbolWatermarkProperties.transparency': 90,
-        'scalesProperties.textColor': '#ffffff'
-      }
-    });
-    
-    setChartReady(true);
+  const validateString = (value, defaultValue = '') => {
+    return typeof value === 'string' ? value : String(value || defaultValue);
   };
 
   const formatCurrency = (value, decimals = 2) => {
-    if (value < 0.01 && value > 0) {
-      return value.toFixed(8);
+    const numValue = validateNumeric(value, 0);
+    if (numValue < 0.01 && numValue > 0) {
+      return numValue.toFixed(8);
     }
     return new Intl.NumberFormat('en-US', { 
       style: 'currency', 
       currency: 'USD',
       minimumFractionDigits: decimals 
-    }).format(value);
+    }).format(numValue);
   };
 
   const formatLargeNumber = (num) => {
-    if (num >= 1e9) return (num / 1e9).toFixed(1) + 'B';
-    if (num >= 1e6) return (num / 1e6).toFixed(1) + 'M';
-    if (num >= 1e3) return (num / 1e3).toFixed(1) + 'K';
-    return num.toString();
+    const numValue = validateNumeric(num, 0);
+    if (numValue >= 1e9) return (numValue / 1e9).toFixed(1) + 'B';
+    if (numValue >= 1e6) return (numValue / 1e6).toFixed(1) + 'M';
+    if (numValue >= 1e3) return (numValue / 1e3).toFixed(1) + 'K';
+    return numValue.toString();
   };
 
   const getRecommendationColor = (recommendation) => {
@@ -262,21 +226,31 @@ const TokenDetailPage = ({ tokenSymbol, onBack }) => {
                 <div className="chart-header">
                   <h3>Price Chart</h3>
                   <div className="chart-indicators">
-                    <span className={`indicator ${getSignalColor(tokenData.technicalAnalysis.indicators.rsi.signal)}`}>
-                      RSI: {tokenData.technicalAnalysis.indicators.rsi.value}
-                    </span>
-                    <span className={`indicator ${getSignalColor(tokenData.technicalAnalysis.indicators.macd.signal)}`}>
-                      MACD: {tokenData.technicalAnalysis.indicators.macd.signal}
-                    </span>
+                    {tokenData.technicalAnalysis?.indicators?.rsi && (
+                      <span className={`indicator ${getSignalColor(tokenData.technicalAnalysis.indicators.rsi.signal)}`}>
+                        RSI: {tokenData.technicalAnalysis.indicators.rsi.value}
+                      </span>
+                    )}
+                    {tokenData.technicalAnalysis?.indicators?.macd && (
+                      <span className={`indicator ${getSignalColor(tokenData.technicalAnalysis.indicators.macd.signal)}`}>
+                        MACD: {tokenData.technicalAnalysis.indicators.macd.signal}
+                      </span>
+                    )}
                   </div>
                 </div>
-                <div id="tradingview-chart" className="tradingview-container"></div>
-                {!chartReady && (
-                  <div className="chart-loading">
-                    <div className="loading-spinner"></div>
-                    <p>Loading TradingView Chart...</p>
+                <div className="chart-placeholder">
+                  <div className="placeholder-content">
+                    <BarChart3 size={48} />
+                    <h4>{tokenData.symbol}/USDT Chart</h4>
+                    <p>Interactive chart coming soon</p>
+                    <div className="placeholder-stats">
+                      <span>Current: {formatCurrency(tokenData.price)}</span>
+                      <span className={tokenData.priceChangePercent24h >= 0 ? 'positive' : 'negative'}>
+                        24h: {tokenData.priceChangePercent24h >= 0 ? '+' : ''}{tokenData.priceChangePercent24h.toFixed(2)}%
+                      </span>
+                    </div>
                   </div>
-                )}
+                </div>
               </div>
               
               {/* Key Insights */}

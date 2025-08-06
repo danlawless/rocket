@@ -349,7 +349,7 @@ const TradesTable = ({ trades }) => {
                   <div className="token-cell">
                     <div className="token-icon">
                       <img 
-                        src={`https://cryptologos.cc/logos/${trade.token.toLowerCase()}-${trade.token.toLowerCase()}-logo.png`}
+                        src={`https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/${trade.token.toLowerCase()}.png`}
                         alt={trade.token}
                         onError={(e) => {
                           e.target.style.display = 'none';

@@ -7,7 +7,7 @@ export const getTokenDetailData = (tokenSymbol) => {
       // Basic Info
       symbol: 'SOL',
       name: 'Solana',
-      logo: 'https://cryptologos.cc/logos/solana-sol-logo.png',
+      logo: 'https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/sol.png',
       price: 238.45,
       priceChange24h: 12.34,
       priceChangePercent24h: 5.47,
