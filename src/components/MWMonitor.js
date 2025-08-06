@@ -715,6 +715,47 @@ const MWMonitor = () => {
 
   return (
     <div className="mw-monitor">
+      {/* Top Mini Indicators Bar */}
+      <div className="top-mini-indicators-bar">
+        <div className="mini-indicators-ticker">
+          <div className="mini-indicator btc-mini">
+            <span className="mini-symbol">₿</span>
+            <span className="mini-value">{formatCurrency(macroMarketData.macroIndicators.BTC.current)}</span>
+            <span className={`mini-change ${macroMarketData.macroIndicators.BTC.change24h < 0 ? 'negative' : 'positive'}`}>
+              {macroMarketData.macroIndicators.BTC.change24h > 0 ? '+' : ''}{macroMarketData.macroIndicators.BTC.change24h}%
+            </span>
+          </div>
+          <div className="mini-indicator paxgbtc-mini">
+            <span className="mini-symbol">PAXG/BTC</span>
+            <span className="mini-value">{macroMarketData.macroIndicators.PAXGBTC.current.toFixed(4)}</span>
+            <span className={`mini-change ${macroMarketData.macroIndicators.PAXGBTC.change24h < 0 ? 'negative' : 'positive'}`}>
+              {macroMarketData.macroIndicators.PAXGBTC.change24h > 0 ? '+' : ''}{macroMarketData.macroIndicators.PAXGBTC.change24h.toFixed(4)}
+            </span>
+          </div>
+          <div className="mini-indicator usdtdom-mini">
+            <span className="mini-symbol">USDT.D</span>
+            <span className="mini-value">{macroMarketData.macroIndicators.USDTDOM.current.toFixed(2)}%</span>
+            <span className={`mini-change ${macroMarketData.macroIndicators.USDTDOM.change24h < 0 ? 'negative' : 'positive'}`}>
+              {macroMarketData.macroIndicators.USDTDOM.change24h > 0 ? '+' : ''}{macroMarketData.macroIndicators.USDTDOM.change24h.toFixed(2)}%
+            </span>
+          </div>
+          <div className="mini-indicator dxy-mini">
+            <span className="mini-symbol">DXY</span>
+            <span className="mini-value">{macroMarketData.macroIndicators.DXY.current}</span>
+            <span className={`mini-change ${macroMarketData.macroIndicators.DXY.change24h < 0 ? 'negative' : 'positive'}`}>
+              {macroMarketData.macroIndicators.DXY.change24h > 0 ? '+' : ''}{macroMarketData.macroIndicators.DXY.change24h}
+            </span>
+          </div>
+          <div className="mini-indicator sp500-mini">
+            <span className="mini-symbol">S&P</span>
+            <span className="mini-value">{formatCurrency(macroMarketData.macroIndicators.US500.current)}</span>
+            <span className={`mini-change ${macroMarketData.macroIndicators.US500.change24h < 0 ? 'negative' : 'positive'}`}>
+              {macroMarketData.macroIndicators.US500.change24h > 0 ? '+' : ''}{macroMarketData.macroIndicators.US500.change24h}%
+            </span>
+          </div>
+        </div>
+      </div>
+      
       {/* Hyper-Optimized Multi-Line Macro Header */}
       <motion.header 
         className="macro-overview-header"
@@ -723,26 +764,7 @@ const MWMonitor = () => {
       >
         <div className="macro-container">
           
-          {/* Row 1: Market Regime - PUMPING Indicator */}
-          <div className="macro-row regime-row">
-            <div className="regime-compact" style={{ borderColor: getRegimeColor(macroMarketData.marketRegime.current) }}>
-              {getRegimeIcon(macroMarketData.marketRegime.current)}
-              <span className="regime-text" style={{ color: getRegimeColor(macroMarketData.marketRegime.current) }}>
-                {macroMarketData.marketRegime.current}
-              </span>
-              <span className="regime-strength">{macroMarketData.marketRegime.strength}%</span>
-              <span className="regime-duration">📅 {macroMarketData.marketRegime.duration}</span>
-            </div>
-          </div>
 
-          {/* Row 2: MW Thesis - Crypto Super Cycle Banner */}
-          <div className="macro-row thesis-row">
-            <div className="mw-thesis-compact">
-              <Brain size={12} />
-              <span className="thesis-title">🧠 {macroMarketData.mwMacroThesis.title}</span>
-              <span className="thesis-confidence">📊 {macroMarketData.mwMacroThesis.confidence}%</span>
-            </div>
-          </div>
 
           {/* Row 3: Core Technical Indicators - DXY, S&P, BTC */}
           <div className="macro-row indicators-row">
@@ -917,14 +939,7 @@ const MWMonitor = () => {
                   </div>
                 </div>
                 
-                <div className="mw-thesis-compact">
-                  <Brain size={16} />
-                  <div className="thesis-text">
-                    <span className="thesis-label">MW THESIS:</span>
-                    <span className="thesis-value">{macroMarketData.mwMacroThesis.title}</span>
-                    <span className="thesis-confidence">({macroMarketData.mwMacroThesis.confidence}%)</span>
-                  </div>
-                </div>
+
                 
                 <div className="alerts-compact">
                   <AlertTriangle size={16} />
@@ -934,9 +949,135 @@ const MWMonitor = () => {
                 </div>
               </div>
 
-              {/* Core Indicators: DXY, US500, BTC with Multi-Timeframe */}
+              {/* Core Indicators: BTC, PAXGBTC, USDT.D, DXY, S&P */}
               <div className="core-indicators-grid">
                 
+                {/* BTC Indicator */}
+                <div className="indicator-card btc-card">
+                  <div className="indicator-header">
+                    <div className="indicator-symbol">BTC</div>
+                    <div className="indicator-price">
+                      {formatCurrency(macroMarketData.macroIndicators.BTC.current)}
+                      <span className={`price-change ${macroMarketData.macroIndicators.BTC.change24h < 0 ? 'negative' : 'positive'}`}>
+                        {macroMarketData.macroIndicators.BTC.change24h > 0 ? '+' : ''}
+                        {macroMarketData.macroIndicators.BTC.change24h}%
+                      </span>
+                    </div>
+                    <div className="mw-agreement">
+                      MW: {macroMarketData.macroIndicators.BTC.mwAgreement}%
+                      <span className="mentions-count">({macroMarketData.macroIndicators.BTC.mentions})</span>
+                    </div>
+                  </div>
+                  
+                  <div className="timeframes-row">
+                    {['15m', '1h', '4h'].map((tf) => {
+                      const data = macroMarketData.macroIndicators.BTC.timeframes[tf];
+                      return (
+                        <div key={tf} className={`timeframe-cell ${data.direction.toLowerCase()}`}>
+                          <div className="tf-label">{tf}</div>
+                          <div className="tf-direction">
+                            {data.direction === 'BULLISH' ? <ArrowUp size={12} /> : 
+                             data.direction === 'BEARISH' ? <ArrowDown size={12} /> : 
+                             <Minus size={12} />}
+                            <span className={`strength-${data.strength.toLowerCase().replace('_', '-')}`}>
+                              {data.strength}
+                            </span>
+                          </div>
+                          <div className="tf-confidence">{data.confidence}%</div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  
+                  <div className="mw-comment">
+                    "{macroMarketData.macroIndicators.BTC.mwLatestComment}"
+                  </div>
+                </div>
+
+                {/* PAXGBTC Indicator */}
+                <div className="indicator-card paxgbtc-card">
+                  <div className="indicator-header">
+                    <div className="indicator-symbol">PAXG/BTC</div>
+                    <div className="indicator-price">
+                      {macroMarketData.macroIndicators.PAXGBTC.current.toFixed(4)}
+                      <span className={`price-change ${macroMarketData.macroIndicators.PAXGBTC.change24h < 0 ? 'negative' : 'positive'}`}>
+                        {macroMarketData.macroIndicators.PAXGBTC.change24h > 0 ? '+' : ''}
+                        {macroMarketData.macroIndicators.PAXGBTC.change24h.toFixed(4)}
+                      </span>
+                    </div>
+                    <div className="mw-agreement">
+                      MW: {macroMarketData.macroIndicators.PAXGBTC.mwAgreement}%
+                      <span className="mentions-count">({macroMarketData.macroIndicators.PAXGBTC.mentions})</span>
+                    </div>
+                  </div>
+                  
+                  <div className="timeframes-row">
+                    {['15m', '1h', '4h'].map((tf) => {
+                      const data = macroMarketData.macroIndicators.PAXGBTC.timeframes[tf];
+                      return (
+                        <div key={tf} className={`timeframe-cell ${data.direction.toLowerCase()}`}>
+                          <div className="tf-label">{tf}</div>
+                          <div className="tf-direction">
+                            {data.direction === 'BULLISH' ? <ArrowUp size={12} /> : 
+                             data.direction === 'BEARISH' ? <ArrowDown size={12} /> : 
+                             <Minus size={12} />}
+                            <span className={`strength-${data.strength.toLowerCase().replace('_', '-')}`}>
+                              {data.strength}
+                            </span>
+                          </div>
+                          <div className="tf-confidence">{data.confidence}%</div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  
+                  <div className="mw-comment">
+                    "{macroMarketData.macroIndicators.PAXGBTC.mwLatestComment}"
+                  </div>
+                </div>
+
+                {/* USDT Dominance Indicator */}
+                <div className="indicator-card usdtdom-card">
+                  <div className="indicator-header">
+                    <div className="indicator-symbol">USDT.D</div>
+                    <div className="indicator-price">
+                      {macroMarketData.macroIndicators.USDTDOM.current.toFixed(2)}%
+                      <span className={`price-change ${macroMarketData.macroIndicators.USDTDOM.change24h < 0 ? 'negative' : 'positive'}`}>
+                        {macroMarketData.macroIndicators.USDTDOM.change24h > 0 ? '+' : ''}
+                        {macroMarketData.macroIndicators.USDTDOM.change24h.toFixed(2)}%
+                      </span>
+                    </div>
+                    <div className="mw-agreement">
+                      MW: {macroMarketData.macroIndicators.USDTDOM.mwAgreement}%
+                      <span className="mentions-count">({macroMarketData.macroIndicators.USDTDOM.mentions})</span>
+                    </div>
+                  </div>
+                  
+                  <div className="timeframes-row">
+                    {['15m', '1h', '4h'].map((tf) => {
+                      const data = macroMarketData.macroIndicators.USDTDOM.timeframes[tf];
+                      return (
+                        <div key={tf} className={`timeframe-cell ${data.direction.toLowerCase()}`}>
+                          <div className="tf-label">{tf}</div>
+                          <div className="tf-direction">
+                            {data.direction === 'BULLISH' ? <ArrowUp size={12} /> : 
+                             data.direction === 'BEARISH' ? <ArrowDown size={12} /> : 
+                             <Minus size={12} />}
+                            <span className={`strength-${data.strength.toLowerCase().replace('_', '-')}`}>
+                              {data.strength}
+                            </span>
+                          </div>
+                          <div className="tf-confidence">{data.confidence}%</div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  
+                  <div className="mw-comment">
+                    "{macroMarketData.macroIndicators.USDTDOM.mwLatestComment}"
+                  </div>
+                </div>
+
                 {/* DXY Indicator */}
                 <div className="indicator-card dxy-card">
                   <div className="indicator-header">
@@ -1018,48 +1159,6 @@ const MWMonitor = () => {
                   
                   <div className="mw-comment">
                     "{macroMarketData.macroIndicators.US500.mwLatestComment}"
-                  </div>
-                </div>
-
-                {/* BTC Indicator */}
-                <div className="indicator-card btc-card">
-                  <div className="indicator-header">
-                    <div className="indicator-symbol">BTC</div>
-                    <div className="indicator-price">
-                      {formatCurrency(macroMarketData.macroIndicators.BTC.current)}
-                      <span className={`price-change ${macroMarketData.macroIndicators.BTC.change24h < 0 ? 'negative' : 'positive'}`}>
-                        {macroMarketData.macroIndicators.BTC.change24h > 0 ? '+' : ''}
-                        {macroMarketData.macroIndicators.BTC.change24h}%
-                      </span>
-                    </div>
-                    <div className="mw-agreement">
-                      MW: {macroMarketData.macroIndicators.BTC.mwAgreement}%
-                      <span className="mentions-count">({macroMarketData.macroIndicators.BTC.mentions})</span>
-                    </div>
-                  </div>
-                  
-                  <div className="timeframes-row">
-                    {['15m', '1h', '4h'].map((tf) => {
-                      const data = macroMarketData.macroIndicators.BTC.timeframes[tf];
-                      return (
-                        <div key={tf} className={`timeframe-cell ${data.direction.toLowerCase()}`}>
-                          <div className="tf-label">{tf}</div>
-                          <div className="tf-direction">
-                            {data.direction === 'BULLISH' ? <ArrowUp size={12} /> : 
-                             data.direction === 'BEARISH' ? <ArrowDown size={12} /> : 
-                             <Minus size={12} />}
-                            <span className={`strength-${data.strength.toLowerCase().replace('_', '-')}`}>
-                              {data.strength}
-                            </span>
-                          </div>
-                          <div className="tf-confidence">{data.confidence}%</div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                  
-                  <div className="mw-comment">
-                    "{macroMarketData.macroIndicators.BTC.mwLatestComment}"
                   </div>
                 </div>
               </div>

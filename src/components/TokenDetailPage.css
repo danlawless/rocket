@@ -369,6 +369,172 @@
   color: #FF4757;
 }
 
+/* Fundamental Analysis Styles */
+.fundamental-section {
+  padding: 2rem;
+}
+
+.fundamental-layout {
+  display: grid;
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.network-health-card,
+.defi-metrics-card,
+.ecosystem-growth-card,
+.mw-fundamental-view {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.network-health-card h3,
+.defi-metrics-card h3,
+.ecosystem-growth-card h3,
+.mw-fundamental-view h3 {
+  margin: 0 0 1.5rem 0;
+  color: #ffffff;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.network-metrics-grid,
+.growth-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.network-metric,
+.growth-metric {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.metric-value,
+.growth-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #00FF88;
+  margin-bottom: 0.5rem;
+}
+
+.metric-label,
+.growth-label {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 0.25rem;
+}
+
+.metric-change,
+.growth-change {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.metric-change.positive,
+.growth-change.positive {
+  color: #00FF88;
+}
+
+.metric-yield {
+  font-size: 0.8rem;
+  color: #00FF88;
+  font-weight: 500;
+}
+
+.defi-overview {
+  margin-bottom: 1.5rem;
+}
+
+.tvl-metric {
+  text-align: center;
+  padding: 1rem;
+  background: rgba(0, 255, 136, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(0, 255, 136, 0.2);
+}
+
+.tvl-value {
+  display: block;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #00FF88;
+}
+
+.tvl-label {
+  display: block;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0.5rem 0;
+}
+
+.tvl-change {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #00FF88;
+}
+
+.top-protocols h4 {
+  margin: 0 0 1rem 0;
+  color: #ffffff;
+  font-size: 1rem;
+}
+
+.protocol-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.protocol-name {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.protocol-tvl {
+  color: #00FF88;
+  font-weight: 600;
+}
+
+.fundamental-notes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.fundamental-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: rgba(0, 255, 136, 0.05);
+  border-radius: 8px;
+  border-left: 3px solid #00FF88;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.5;
+}
+
+.fundamental-note svg {
+  color: #00FF88;
+  margin-top: 0.1rem;
+  flex-shrink: 0;
+}
+
 .key-insights-section {
   display: flex;
   flex-direction: column;

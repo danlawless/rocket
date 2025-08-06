@@ -148,6 +148,86 @@ export const macroMarketData = {
       keyLevels: { resistance: 105000, nearSupport: 99800, majorSupport: 96500 },
       mwLatestComment: "BTC looking absolutely perfect. Korean flows + DXY weakness = altcoin season incoming.",
       impact: 'BULLISH_LEADER' // for crypto market
+    },
+
+    PAXGBTC: {
+      name: 'PAXG/BTC',
+      current: 0.0289,
+      change24h: -0.0012,
+      mwAgreement: 88,
+      overallDirection: 'BEARISH',
+      overallStrength: 'MODERATE',
+      mentions: 14,
+      
+      timeframes: {
+        '15m': { 
+          direction: 'BEARISH', 
+          strength: 'MODERATE', 
+          signal: 'SHORT',
+          technicals: ['RSI: 42 (weakening)', 'Gold losing to BTC momentum'],
+          volume: 'MEDIUM',
+          confidence: 82
+        },
+        '1h': { 
+          direction: 'BEARISH', 
+          strength: 'STRONG', 
+          signal: 'SHORT',
+          technicals: ['BTC dominance rising', 'Flight to crypto over gold'],
+          volume: 'HIGH',
+          confidence: 87
+        },
+        '4h': { 
+          direction: 'BEARISH', 
+          strength: 'MODERATE', 
+          signal: 'SHORT',
+          technicals: ['Institutional preference for BTC', 'Digital gold narrative'],
+          volume: 'MEDIUM',
+          confidence: 85
+        }
+      },
+      keyLevels: { resistance: 0.0295, nearSupport: 0.0275, majorSupport: 0.0260 },
+      mwLatestComment: "PAXGBTC falling = institutions choosing digital gold over physical. Bullish for crypto ecosystem.",
+      impact: 'POSITIVE' // for crypto - shows preference for BTC over gold
+    },
+
+    USDTDOM: {
+      name: 'USDT Dominance',
+      current: 4.73,
+      change24h: -0.18,
+      mwAgreement: 94,
+      overallDirection: 'BEARISH',
+      overallStrength: 'STRONG',
+      mentions: 22,
+      
+      timeframes: {
+        '15m': { 
+          direction: 'BEARISH', 
+          strength: 'STRONG', 
+          signal: 'RISK_ON',
+          technicals: ['USDT.D falling = money rotating into alts', 'Risk appetite increasing'],
+          volume: 'HIGH',
+          confidence: 91
+        },
+        '1h': { 
+          direction: 'BEARISH', 
+          strength: 'VERY_STRONG', 
+          signal: 'ALTCOIN_SEASON',
+          technicals: ['Classic altseason pattern', 'Stablecoin exit accelerating'],
+          volume: 'MASSIVE',
+          confidence: 95
+        },
+        '4h': { 
+          direction: 'BEARISH', 
+          strength: 'STRONG', 
+          signal: 'ALTCOIN_SEASON',
+          technicals: ['Multi-week downtrend', 'Capital rotating to risk assets'],
+          volume: 'HIGH',
+          confidence: 89
+        }
+      },
+      keyLevels: { resistance: 4.95, nearSupport: 4.65, majorSupport: 4.40 },
+      mwLatestComment: "USDT.D collapsing = altcoin season confirmed. This is the signal we've been waiting for.",
+      impact: 'MASSIVE_POSITIVE' // for altcoins - falling USDT dominance = altcoin season
     }
   },
 

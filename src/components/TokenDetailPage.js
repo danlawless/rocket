@@ -196,6 +196,7 @@ const TokenDetailPage = ({ tokenSymbol, onBack }) => {
           { id: 'overview', label: '📊 Overview' },
           { id: 'mw-analysis', label: '🎯 MW Analysis' },
           { id: 'technical', label: '📈 Technical' },
+          { id: 'fundamental', label: '🏗️ Fundamentals' },
           { id: 'social', label: '🐦 Social Correlation' },
           { id: 'trading', label: '💰 Trading Setup' }
         ].map(tab => (
@@ -260,7 +261,7 @@ const TokenDetailPage = ({ tokenSymbol, onBack }) => {
                   <div className="insight-card mw-insight">
                     <h4>MW Analysis</h4>
                     <div className="insight-points">
-                      {tokenData.mwAnalysis.keyPoints.slice(0, 3).map((point, index) => (
+                      {(tokenData.mwAnalysis?.keyPoints || []).slice(0, 3).map((point, index) => (
                         <div key={index} className="insight-point">
                           <CheckCircle size={14} />
                           {point}
@@ -272,7 +273,7 @@ const TokenDetailPage = ({ tokenSymbol, onBack }) => {
                   <div className="insight-card risk-insight">
                     <h4>Risk Factors</h4>
                     <div className="insight-points">
-                      {tokenData.mwAnalysis.risks.map((risk, index) => (
+                      {(tokenData.mwAnalysis?.risks || []).map((risk, index) => (
                         <div key={index} className="insight-point risk">
                           <AlertTriangle size={14} />
                           {risk}
@@ -317,7 +318,7 @@ const TokenDetailPage = ({ tokenSymbol, onBack }) => {
               <div className="mw-mentions-card">
                 <h3>🎥 Recent MW Mentions</h3>
                 <div className="mentions-list">
-                  {tokenData.mwInsights.recentMentions.map((mention, index) => (
+                  {(tokenData.mwInsights?.recentMentions || []).map((mention, index) => (
                     <div key={index} className={`mention-item importance-${mention.importance}`}>
                       <div className="mention-header">
                         <span className="mention-date">{mention.date}</span>
@@ -338,7 +339,7 @@ const TokenDetailPage = ({ tokenSymbol, onBack }) => {
               <div className="mw-technical-notes">
                 <h3>🔍 MW Technical Analysis Notes</h3>
                 <div className="technical-notes-list">
-                  {tokenData.technicalAnalysis.mwTechnicalNotes.map((note, index) => (
+                  {tokenData.technicalAnalysis?.mwTechnicalNotes?.map((note, index) => (
                     <div key={index} className="technical-note">
                       <BarChart3 size={16} />
                       {note}
@@ -366,7 +367,7 @@ const TokenDetailPage = ({ tokenSymbol, onBack }) => {
                 <div className="levels-grid">
                   <div className="levels-column">
                     <h4>Resistance</h4>
-                    {tokenData.technicalAnalysis.keyLevels.resistance.map((level, index) => (
+                    {tokenData.technicalAnalysis?.keyLevels?.resistance?.map((level, index) => (
                       <div key={index} className="level-item resistance">
                         {formatCurrency(level)}
                       </div>
@@ -374,7 +375,7 @@ const TokenDetailPage = ({ tokenSymbol, onBack }) => {
                   </div>
                   <div className="levels-column">
                     <h4>Support</h4>
-                    {tokenData.technicalAnalysis.keyLevels.support.map((level, index) => (
+                    {tokenData.technicalAnalysis?.keyLevels?.support?.map((level, index) => (
                       <div key={index} className="level-item support">
                         {formatCurrency(level)}
                       </div>
@@ -387,7 +388,7 @@ const TokenDetailPage = ({ tokenSymbol, onBack }) => {
               <div className="indicators-card">
                 <h3>📊 Technical Indicators</h3>
                 <div className="indicators-grid">
-                  {Object.entries(tokenData.technicalAnalysis.indicators).map(([key, indicator]) => (
+                  {Object.entries(tokenData.technicalAnalysis?.indicators || {}).map(([key, indicator]) => (
                     <div key={key} className={`indicator-item ${getSignalColor(indicator.signal)}`}>
                       <div className="indicator-name">{key.toUpperCase()}</div>
                       <div className="indicator-value">
@@ -403,7 +404,7 @@ const TokenDetailPage = ({ tokenSymbol, onBack }) => {
               <div className="patterns-card">
                 <h3>📈 Chart Patterns</h3>
                 <div className="patterns-list">
-                  {tokenData.technicalAnalysis.patterns.map((pattern, index) => (
+                  {tokenData.technicalAnalysis?.patterns?.map((pattern, index) => (
                     <div key={index} className={`pattern-item status-${pattern.status}`}>
                       <div className="pattern-header">
                         <span className="pattern-name">{pattern.name}</span>
@@ -419,6 +420,101 @@ const TokenDetailPage = ({ tokenSymbol, onBack }) => {
                   ))}
                 </div>
               </div>
+              
+            </div>
+          </motion.div>
+        )}
+
+        {/* Fundamental Analysis Tab */}
+        {activeTab === 'fundamental' && tokenData.fundamentalData && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="fundamental-section"
+          >
+            <div className="fundamental-layout">
+              
+              {/* Network Health */}
+              <div className="network-health-card">
+                <h3>🌐 Network Health</h3>
+                <div className="network-metrics-grid">
+                  <div className="network-metric">
+                    <span className="metric-value">{tokenData.fundamentalData.networkHealth.transactions24h?.toLocaleString()}</span>
+                    <span className="metric-label">24h Transactions</span>
+                    <span className="metric-change positive">{tokenData.fundamentalData.networkHealth.transactionChange}</span>
+                  </div>
+                  <div className="network-metric">
+                    <span className="metric-value">{tokenData.fundamentalData.networkHealth.activeAddresses?.toLocaleString()}</span>
+                    <span className="metric-label">Active Addresses</span>
+                    <span className="metric-change positive">{tokenData.fundamentalData.networkHealth.addressChange}</span>
+                  </div>
+                  <div className="network-metric">
+                    <span className="metric-value">{tokenData.fundamentalData.networkHealth.totalStaked}</span>
+                    <span className="metric-label">Total Staked</span>
+                    <span className="metric-yield">{tokenData.fundamentalData.networkHealth.stakingYield} APY</span>
+                  </div>
+                </div>
+              </div>
+              
+              {/* DeFi Metrics */}
+              {tokenData.fundamentalData.defiMetrics && (
+                <div className="defi-metrics-card">
+                  <h3>🏦 DeFi Ecosystem</h3>
+                  <div className="defi-overview">
+                    <div className="tvl-metric">
+                      <span className="tvl-value">${formatLargeNumber(tokenData.fundamentalData.defiMetrics.tvl)}</span>
+                      <span className="tvl-label">Total Value Locked</span>
+                      <span className="tvl-change positive">{tokenData.fundamentalData.defiMetrics.tvlChange}</span>
+                    </div>
+                  </div>
+                  <div className="top-protocols">
+                    <h4>Top Protocols</h4>
+                    {tokenData.fundamentalData.defiMetrics.topProtocols?.map((protocol, index) => (
+                      <div key={index} className="protocol-item">
+                        <span className="protocol-name">{protocol.name}</span>
+                        <span className="protocol-tvl">${formatLargeNumber(protocol.tvl)}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              
+              {/* Ecosystem Growth */}
+              {tokenData.fundamentalData.ecosystemGrowth && (
+                <div className="ecosystem-growth-card">
+                  <h3>🚀 Ecosystem Growth</h3>
+                  <div className="growth-metrics">
+                    <div className="growth-metric">
+                      <span className="growth-value">{formatLargeNumber(tokenData.fundamentalData.ecosystemGrowth.dailyUsers)}</span>
+                      <span className="growth-label">Daily Users</span>
+                      <span className="growth-change positive">{tokenData.fundamentalData.ecosystemGrowth.userGrowth}</span>
+                    </div>
+                    <div className="growth-metric">
+                      <span className="growth-value">{tokenData.fundamentalData.ecosystemGrowth.newProjects}</span>
+                      <span className="growth-label">New Projects (30d)</span>
+                    </div>
+                    <div className="growth-metric">
+                      <span className="growth-value">{tokenData.fundamentalData.ecosystemGrowth.developerActivity}</span>
+                      <span className="growth-label">Developer Activity</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+              
+              {/* MW Fundamental View */}
+              {tokenData.fundamentalData.mwFundamentalView && (
+                <div className="mw-fundamental-view">
+                  <h3>🔍 MW Fundamental Analysis</h3>
+                  <div className="fundamental-notes-list">
+                    {tokenData.fundamentalData.mwFundamentalView.map((note, index) => (
+                      <div key={index} className="fundamental-note">
+                        <CheckCircle size={16} />
+                        {note}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
               
             </div>
           </motion.div>
@@ -460,7 +556,7 @@ const TokenDetailPage = ({ tokenSymbol, onBack }) => {
               <div className="correlated-posts-card">
                 <h3>🔗 Top Correlated Posts</h3>
                 <div className="posts-list">
-                  {tokenData.socialCorrelation.topCorrelatedPosts.map((post, index) => (
+                  {tokenData.socialCorrelation?.topCorrelatedPosts?.map((post, index) => (
                     <div key={index} className={`post-item impact-${post.postImpact}`}>
                       <div className="post-header">
                         <span className="post-account">{post.account}</span>
@@ -526,7 +622,7 @@ const TokenDetailPage = ({ tokenSymbol, onBack }) => {
               <div className="targets-card">
                 <h3>🎯 Price Targets</h3>
                 <div className="targets-list">
-                  {tokenData.tradingSetup.targets.map((target, index) => (
+                  {tokenData.tradingSetup?.targets?.map((target, index) => (
                     <div key={index} className="target-item">
                       <div className="target-level">Target {index + 1}</div>
                       <div className="target-price">{formatCurrency(target.level)}</div>
@@ -547,7 +643,7 @@ const TokenDetailPage = ({ tokenSymbol, onBack }) => {
               <div className="trading-notes-card">
                 <h3>📝 MW Trading Notes</h3>
                 <div className="trading-notes-list">
-                  {tokenData.tradingSetup.mwTradingNotes.map((note, index) => (
+                  {tokenData.tradingSetup?.mwTradingNotes?.map((note, index) => (
                     <div key={index} className="trading-note">
                       <CheckCircle size={16} />
                       {note}
@@ -560,7 +656,7 @@ const TokenDetailPage = ({ tokenSymbol, onBack }) => {
               <div className="risk-analysis-card">
                 <h3>⚠️ Risk Analysis</h3>
                 <div className="risk-factors-list">
-                  {tokenData.tradingSetup.riskFactors.map((risk, index) => (
+                  {tokenData.tradingSetup?.riskFactors?.map((risk, index) => (
                     <div key={index} className={`risk-factor impact-${risk.impact.toLowerCase()}`}>
                       <div className="risk-header">
                         <span className="risk-name">{risk.factor}</span>
