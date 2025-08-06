@@ -1,0 +1,779 @@
+/* ====================================
+   MW COIN ANALYSIS PAGE STYLES
+   ==================================== */
+
+.coin-analysis {
+  min-height: 100vh;
+  padding-top: 80px; /* Account for TopBar */
+  padding-bottom: 100px; /* Account for Navigation */
+  background: var(--mw-primary);
+}
+
+.coin-analysis-container {
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-6) var(--space-8);
+}
+
+/* =====================================
+   SECTION STYLING
+   ===================================== */
+
+.coin-analysis-container > section {
+  margin-bottom: var(--space-12);
+}
+
+.coin-analysis-container > section:last-child {
+  margin-bottom: 0;
+}
+
+.section-title {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  margin: 0 0 var(--space-1) 0;
+  line-height: var(--leading-tight);
+}
+
+.section-subtitle {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  font-weight: var(--font-medium);
+}
+
+.charts-section-header,
+.analysis-section-header,
+.intelligence-section-header,
+.action-section-header {
+  margin-bottom: var(--space-6);
+}
+
+/* =====================================
+   COIN HEADER SECTION
+   ===================================== */
+
+.coin-header-card {
+  margin-bottom: var(--space-6);
+}
+
+.coin-header-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-6);
+}
+
+.coin-identity {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.coin-icon-large {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  background: var(--gradient-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--border-accent);
+  box-shadow: var(--shadow-glow);
+}
+
+.coin-icon-large img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.coin-fallback-large {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-extrabold);
+  color: var(--text-primary);
+}
+
+.coin-details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.coin-symbol-large {
+  font-size: var(--text-4xl);
+  font-weight: var(--font-extrabold);
+  color: var(--text-primary);
+  margin: 0;
+  line-height: var(--leading-tight);
+}
+
+.coin-name-large {
+  font-size: var(--text-lg);
+  color: var(--text-secondary);
+  font-weight: var(--font-medium);
+}
+
+.coin-market-data {
+  display: flex;
+  gap: var(--space-4);
+  margin-top: var(--space-2);
+}
+
+.market-data-item {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  font-weight: var(--font-medium);
+  padding: var(--space-1) var(--space-3);
+  background: var(--mw-tertiary);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-secondary);
+}
+
+.coin-price-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-3);
+}
+
+.current-price-large {
+  font-size: var(--text-5xl);
+  font-weight: var(--font-extrabold);
+  color: var(--mw-accent);
+  font-family: var(--font-mono);
+  line-height: var(--leading-none);
+  text-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+}
+
+.price-change-section {
+  display: flex;
+  gap: var(--space-2);
+}
+
+/* Setup Summary */
+.coin-setup-summary {
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--border-secondary);
+  background: linear-gradient(135deg, rgba(0, 255, 136, 0.05) 0%, transparent 50%);
+  border-radius: var(--radius-xl);
+  padding: var(--space-4);
+  margin: var(--space-4) -var(--space-4) 0;
+}
+
+.setup-summary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-4);
+}
+
+.setup-summary-header h3 {
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.setup-summary-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--space-4);
+}
+
+.setup-summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.setup-label {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  font-weight: var(--font-medium);
+}
+
+.setup-value {
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  font-weight: var(--font-semibold);
+}
+
+.setup-value.positive {
+  color: var(--mw-success);
+}
+
+.setup-value.negative {
+  color: var(--mw-danger);
+}
+
+/* =====================================
+   CHARTS GRID SECTION
+   ===================================== */
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: var(--space-6);
+  height: 900px; /* Fixed height for consistent chart sizing */
+}
+
+.chart-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.chart-4h {
+  grid-area: 1 / 1 / 2 / 2;
+}
+
+.chart-1h {
+  grid-area: 1 / 2 / 2 / 3;
+}
+
+.chart-15m {
+  grid-area: 2 / 1 / 2 / 2;
+}
+
+.indicators-panel {
+  grid-area: 2 / 2 / 3 / 3;
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-4);
+  border-bottom: 1px solid var(--border-secondary);
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(8px);
+}
+
+.chart-title {
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.chart-indicators {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+/* TradingView Chart Container */
+.tradingview-chart {
+  flex: 1;
+  position: relative;
+  background: var(--mw-primary);
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+}
+
+/* Chart Placeholder (before TradingView loads) */
+.chart-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--mw-secondary) 0%, var(--mw-tertiary) 100%);
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+}
+
+.chart-placeholder-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  text-align: center;
+  padding: var(--space-8);
+}
+
+.chart-placeholder-icon {
+  font-size: 48px;
+  opacity: 0.7;
+}
+
+.chart-placeholder-text {
+  font-size: var(--text-xl);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+}
+
+.chart-placeholder-subtitle {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  font-weight: var(--font-medium);
+}
+
+/* =====================================
+   MW ANALYSIS SECTION
+   ===================================== */
+
+.analysis-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.analysis-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-6);
+}
+
+.analysis-card {
+  transition: var(--transition-normal);
+}
+
+.analysis-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.analysis-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-3);
+}
+
+.analysis-card-title {
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--text-secondary);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.analysis-card-value {
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  margin-bottom: var(--space-2);
+  line-height: var(--leading-tight);
+}
+
+.analysis-card-details {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  line-height: var(--leading-relaxed);
+}
+
+/* MW Recommendation Card */
+.mw-recommendation-card {
+  background: linear-gradient(135deg, rgba(0, 255, 136, 0.05) 0%, rgba(0, 255, 136, 0.02) 100%);
+  border: 1px solid rgba(0, 255, 136, 0.2);
+}
+
+.recommendation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+}
+
+.recommendation-header h3 {
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.recommendation-details {
+  line-height: var(--leading-relaxed);
+}
+
+.recommendation-details p {
+  margin: 0 0 var(--space-3) 0;
+  color: var(--text-secondary);
+}
+
+.recommendation-details p:last-child {
+  margin-bottom: 0;
+}
+
+.recommendation-details strong {
+  color: var(--text-primary);
+  font-weight: var(--font-semibold);
+}
+
+/* =====================================
+   INTELLIGENCE SECTION
+   ===================================== */
+
+.intelligence-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+}
+
+.intelligence-card {
+  min-height: 300px;
+}
+
+.intelligence-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--border-secondary);
+}
+
+.intelligence-card-header h3 {
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.intelligence-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* Gem Items */
+.gem-item {
+  padding: var(--space-4);
+  background: rgba(255, 0, 128, 0.05);
+  border: 1px solid rgba(255, 0, 128, 0.2);
+  border-radius: var(--radius-lg);
+}
+
+.gem-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-2);
+}
+
+.gem-timestamp {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  font-weight: var(--font-medium);
+}
+
+.gem-quote {
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  font-style: italic;
+  line-height: var(--leading-relaxed);
+  margin-bottom: var(--space-2);
+}
+
+.gem-context {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  border-top: 1px solid rgba(255, 0, 128, 0.1);
+  padding-top: var(--space-2);
+}
+
+/* Post Items */
+.post-item {
+  padding: var(--space-4);
+  background: rgba(0, 212, 255, 0.05);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  border-radius: var(--radius-lg);
+}
+
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-2);
+}
+
+.post-account {
+  font-size: var(--text-sm);
+  color: var(--mw-info);
+  font-weight: var(--font-semibold);
+}
+
+.post-content {
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  line-height: var(--leading-relaxed);
+  margin-bottom: var(--space-2);
+}
+
+.post-engagement {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  border-top: 1px solid rgba(0, 212, 255, 0.1);
+  padding-top: var(--space-2);
+}
+
+.no-data {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 120px;
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  font-style: italic;
+}
+
+/* =====================================
+   ACTION PANEL SECTION
+   ===================================== */
+
+.action-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.action-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+}
+
+.action-card {
+  padding: var(--space-6);
+}
+
+.action-card-title {
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+  margin: 0 0 var(--space-4) 0;
+}
+
+/* Risk Calculator */
+.risk-calculator {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.risk-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.risk-input-group label {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  font-weight: var(--font-medium);
+}
+
+.risk-input {
+  padding: var(--space-3);
+  background: var(--mw-tertiary);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-lg);
+  color: var(--text-primary);
+  font-size: var(--text-base);
+  font-family: var(--font-mono);
+  transition: var(--transition-normal);
+}
+
+.risk-input:focus {
+  outline: none;
+  border-color: var(--mw-accent);
+  box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1);
+}
+
+.risk-results {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border-secondary);
+}
+
+.risk-result-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.risk-value {
+  font-weight: var(--font-semibold);
+  color: var(--mw-accent);
+  font-family: var(--font-mono);
+}
+
+/* Alerts Configuration */
+.alerts-config {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.alert-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.alert-toggle input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--mw-accent);
+}
+
+.alert-toggle label {
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: var(--space-4);
+  justify-content: center;
+}
+
+/* =====================================
+   RESPONSIVE DESIGN
+   ===================================== */
+
+@media (max-width: 1200px) {
+  .charts-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4, 400px);
+    height: auto;
+  }
+  
+  .chart-4h { grid-area: 1 / 1 / 2 / 2; }
+  .chart-1h { grid-area: 2 / 1 / 3 / 2; }
+  .chart-15m { grid-area: 3 / 1 / 4 / 2; }
+  .indicators-panel { grid-area: 4 / 1 / 5 / 2; }
+}
+
+@media (max-width: 768px) {
+  .coin-analysis {
+    padding-top: 64px;
+  }
+  
+  .coin-analysis-container {
+    padding: var(--space-4);
+  }
+  
+  .coin-header-main {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-6);
+  }
+  
+  .coin-price-section {
+    align-items: flex-start;
+  }
+  
+  .current-price-large {
+    font-size: var(--text-4xl);
+  }
+  
+  .coin-symbol-large {
+    font-size: var(--text-3xl);
+  }
+  
+  .analysis-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+  
+  .intelligence-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .action-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 640px) {
+  .coin-identity {
+    gap: var(--space-3);
+  }
+  
+  .coin-icon-large {
+    width: 64px;
+    height: 64px;
+  }
+  
+  .coin-fallback-large {
+    font-size: var(--text-xl);
+  }
+  
+  .coin-market-data {
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  
+  .setup-summary-details {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+  
+  .chart-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+  
+  .chart-indicators {
+    align-self: stretch;
+    justify-content: flex-start;
+  }
+}
+
+/* =====================================
+   ACCESSIBILITY
+   ===================================== */
+
+.analysis-card:focus,
+.action-card:focus {
+  outline: 2px solid var(--mw-accent);
+  outline-offset: 2px;
+}
+
+.risk-input:focus {
+  outline: 2px solid var(--mw-accent);
+  outline-offset: 2px;
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .chart-placeholder {
+    border: 2px solid var(--text-primary);
+  }
+  
+  .gem-item,
+  .post-item {
+    border-width: 2px;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .analysis-card {
+    transition: none;
+  }
+  
+  .analysis-card:hover {
+    transform: none;
+  }
+}

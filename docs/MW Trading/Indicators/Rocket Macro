@@ -1,0 +1,423 @@
+//@version=6
+
+indicator('Rocket Trend - MACRO', shorttitle='Rocket Trend - MACRO', overlay=true)
+
+///// RISK CHECKER
+
+risk_checker_input = input(title='I know I have to do my own research and that I\'m trading at my own risk ->', defval=false)
+risk_checked = risk_checker_input == true
+risk_unchecked = risk_checker_input == false
+risk_checker = risk_unchecked
+
+plotshape(risk_checker, title='Risk Checker', style=shape.labeldown, text='Accept risks in settings menu to start indicator !', textcolor=color.new(color.white, 0), color=color.new(color.red, 0), location=location.abovebar, size=size.huge, show_last=1, offset=-100)
+
+///// TRADE DIRECTION
+
+trade_dir_input = input.string(title='Long/Short', defval='Both', options=['Long', 'Short', 'Both'])
+trade_dir_long = trade_dir_input == 'Long' or trade_dir_input == 'Both'
+trade_dir_short = trade_dir_input == 'Short' or trade_dir_input == 'Both'
+
+///// PARAMETERS
+
+green_high_value = ta.lowest(high, 672)
+green_low_value = ta.lowest(low, 672)
+red_high_value = ta.highest(high, 672)
+red_low_value = ta.highest(low, 672)
+purple_high_value = ta.highest(high, 24)
+purple_low_value = ta.highest(low, 24)
+blue_high_value = ta.lowest(high, 24)
+blue_low_value = ta.lowest(low, 24)
+
+max_green_value = green_low_value * 1.03
+max_green = green_high_value > max_green_value ? max_green_value : green_high_value
+max_red_value = red_high_value * 0.97
+max_red = red_low_value < max_red_value ? max_red_value : red_low_value
+
+breakout_value = purple_low_value - (purple_low_value - green_high_value)
+crash_value = green_high_value + purple_low_value - green_high_value
+
+sma_val = input(title='SMA Value', defval=16)
+green_high = ta.sma(max_green, sma_val)
+green_low = ta.sma(green_low_value, sma_val)
+purple_high = ta.sma(purple_high_value, sma_val)
+red_high = ta.sma(red_high_value, sma_val)
+red_low = ta.sma(max_red, sma_val)
+blue_low = ta.sma(blue_low_value, sma_val)
+crash = ta.sma(breakout_value, sma_val * 4)
+breakout = ta.sma(crash_value, sma_val * 4)
+
+
+falling_market = ta.falling(breakout, 1)
+rising_market = ta.rising(crash, 1)
+mark_dir = (purple_high + blue_low) / 2
+mark_dir_sma = ta.sma(mark_dir, 2)
+plot(mark_dir_sma, title='Month Low Bottom Threshold', color=color.new(color.black, 30), linewidth=1, style=plot.style_line)
+
+
+green_entry_long = open < green_low and high > green_low and high > open
+red_exit_long = open < red_low and high > red_high
+purple_exit_long = high > purple_high and open < purple_high
+
+red_entry_short = open > red_high and low < red_high and low < open
+green_exit_short = open > green_high and low < green_high
+blue_exit_short = low < blue_low and open > blue_low
+
+
+upper_threshold_red_cloud = plot(red_high, title='Month High Upper Threshold', color=color.new(color.red, 30), linewidth=2, style=plot.style_line)
+lower_threshold_red_cloud = plot(red_low, title='Month High Bottom Threshold', color=color.new(color.red, 30), linewidth=1, style=plot.style_line)
+
+fill(lower_threshold_red_cloud, upper_threshold_red_cloud, color=color.new(color.red, 50))
+
+upper_threshold_aqua_cloud = plot(purple_high, title='Day High Upper Threshold', color=color.new(color.purple, 30), linewidth=2, style=plot.style_line)
+lower_threshold_aqua_cloud = plot(blue_low, title='Day Low Bottom Threshold', color=color.new(color.blue, 30), linewidth=2, style=plot.style_line)
+
+fill(lower_threshold_aqua_cloud, upper_threshold_aqua_cloud, color=color.new(color.aqua, 80))
+
+
+upper_threshold_green_cloud = plot(green_high, title='Month Low Upper Threshold', color=color.new(color.green, 30), linewidth=1, style=plot.style_line)
+lower_threshold_green_cloud = plot(green_low, title='Month Low Bottom Threshold', color=color.new(color.green, 30), linewidth=2, style=plot.style_line)
+
+fill(lower_threshold_green_cloud, upper_threshold_green_cloud, color=color.new(color.green, 50))
+
+
+
+///// Ultimate RSI 
+//Created By ChrisMoody on 8/15/2014 
+
+rsi_filter_input = input.string(title='RSI Filter', defval='Both', options=['Entry', 'Exit', 'Both', 'Off'])
+rsi_entry_on = rsi_filter_input == 'Entry' or rsi_filter_input == 'Both'
+rsi_exit_on = rsi_filter_input == 'Exit' or rsi_filter_input == 'Both'
+src2 = open
+len2 = 14
+upLine = 55
+lowLine = 35
+midLine = 50
+breakline = 80
+crashline = 20
+res = '60'
+
+upm = ta.rma(math.max(ta.change(src2), 0), len2)
+downm = ta.rma(-math.min(ta.change(src2), 0), len2)
+rsim = downm == 0 ? 100 : upm == 0 ? 0 : 100 - 100 / (1 + upm / downm)
+outRSI = request.security(syminfo.tickerid, res, rsim)
+
+rsi_low = rsi_entry_on ? ta.rising(outRSI, 1) and (outRSI < lowLine or outRSI[1] < lowLine and ta.crossover(outRSI, lowLine)) and outRSI > crashline : true
+rsi_high = rsi_entry_on ? ta.falling(outRSI, 1) and (outRSI > upLine or outRSI[1] > upLine and ta.crossunder(outRSI, upLine)) and outRSI < breakline : true
+
+rsi_exit_long = rsi_exit_on ? outRSI < crashline and open < green_low and blue_low < green_high : false 
+rsi_exit_short = rsi_exit_on ? outRSI > breakline and open > red_high and purple_high > red_low : false 
+
+
+///// MARKET DIRECTION FILTER
+
+//
+// @author LazyBear 
+// List of all his indicators: 
+// https://docs.google.com/document/d/15AGCufJZ8CIUvwFJ9W-IKns88gkWOKBCvByMEvm5MLo/edit?usp=sharing
+// 
+md_filter_input = input.string(title='Market Direction Filter', defval='Off', options=['On', 'Off'])
+src = open
+lenMA1 = 15 //input.int(13, title='MD Filter MA1', step=1, minval=1, maxval=30)
+lenMA2 = 55 //input.int(55, title='MD Filter MA2', step=1, minval=1, maxval=100)
+cutoff = input.float(2, title='MD Filter Value', step=0.5, minval=0.5, maxval=10)
+calc_cp2(src, len1, len2) =>
+    (len1 * math.sum(src, len2 - 1) - len2 * math.sum(src, len1 - 1)) / (len2 - len1)
+
+cp2 = calc_cp2(src, lenMA1, lenMA2)
+mdi = 100 * (nz(cp2[1]) - cp2) / ((src + src[1]) / 2)
+mdic = mdi < -cutoff ? mdi < mdi[1] ? color.red : color.orange : mdi > cutoff ? mdi > mdi[1] ? color.green : color.lime : color.white
+bgcolor = color.new(mdic,30)
+
+md_filter_on = md_filter_input == 'On'
+md_filter_condition = mdic == color.orange 
+md_filter = md_filter_on ? md_filter_condition : true
+
+md_filter_condition_short = mdic == color.lime   
+md_filter_short = md_filter_on ? md_filter_condition_short : true
+
+
+md_filter_long_entry_condition =  mdic == color.white or mdic==color.orange or mdic == color.green or mdic==color.lime
+md_filter_short_entry_condition = mdic == color.white or mdic == color.red or mdic==color.orange
+md_filter_long_entry = md_filter_on ? md_filter_long_entry_condition : true
+md_filter_short_entry = md_filter_on ? md_filter_short_entry_condition : true
+
+///// LONG ENTRY & EXIT SIGNALS
+
+entry_long = green_entry_long and md_filter_long_entry and rsi_low and high[1] < green_high and rsi_exit_long==false 
+exit_long_value = (purple_exit_long or red_exit_long) and trade_dir_long 
+above_entry_long = low > (ta.valuewhen(entry_long, green_low, 0)*1.004)
+exit_long = (exit_long_value and above_entry_long) or (rsi_exit_long and trade_dir_long)
+
+long_entry = entry_long and risk_checked and trade_dir_long
+long_exit = exit_long and risk_checked and trade_dir_long
+
+inTrade = bool(na)
+inTrade := long_entry[1] ? true : long_exit[1] ? false : inTrade[1]
+NotinTrade = bool(na)
+NotinTrade := long_exit[1] ? true : long_entry[1] ? false : NotinTrade[1]
+
+
+///// SHORT ENTRY & EXIT SIGNALS 
+
+entry_short = red_entry_short and md_filter_short_entry and rsi_high and low[1] > red_low and rsi_exit_short==false 
+exit_short_value = (green_exit_short or blue_exit_short) and trade_dir_short
+below_entry_short = low < ta.valuewhen(entry_short, red_low, 0)
+above_entry_short = open > ta.valuewhen(entry_short, red_low, 0)
+exit_short = (exit_short_value and below_entry_short) or (rsi_exit_short and trade_dir_short)
+
+short_entry = entry_short and risk_checked and trade_dir_short
+short_exit = exit_short and risk_checked and trade_dir_short
+
+inTrade1 = bool(na)
+inTrade1 := short_entry[1] ? true : short_exit[1] ? false : inTrade1[1]
+NotinTrade1 = bool(na)
+NotinTrade1 := short_exit[1] ? true : short_entry[1] ? false : NotinTrade1[1]
+
+
+///// ENTRY & EXIT PLOTSHAPES VALUES
+
+real_entry_long = long_entry and NotinTrade
+real_exit_long = long_exit and inTrade
+
+real_entry_short = short_entry and NotinTrade1
+real_exit_short = short_exit and inTrade1
+
+plot_exit_label_long = real_exit_long
+exit_type_long_plot = red_exit_long ? red_low : purple_exit_long ? purple_high : rsi_exit_long ? open : na
+plot_exit_value_long = ta.valuewhen(plot_exit_label_long, exit_type_long_plot, 0)
+exit_type_long = real_exit_long and red_exit_long ? red_low : real_exit_long and purple_exit_long ? purple_high : real_exit_long and rsi_exit_long ? open : na
+
+plot_exit_label_short = real_exit_short
+exit_type_short_plot = green_exit_short ? green_high : blue_exit_short ? blue_low : rsi_exit_short ? open : na
+plot_exit_value_short = ta.valuewhen(plot_exit_label_short, exit_type_short_plot, 0)
+exit_type_short = real_exit_short and green_exit_short ? green_high : real_exit_short and blue_exit_short ? blue_low : real_exit_short and rsi_exit_short ? open : na
+
+
+///// ENTRY & EXIT PLOTSHAPES
+
+entry_plot_color_long = real_entry_long ? color.new(color.olive, 10) : na
+exit_plot_color_long = plot_exit_label_long ? color.new(color.lime, 10) : na
+
+entry_plot_color_short = real_entry_short ? color.new(color.maroon, 10) : na
+exit_plot_color_short = plot_exit_label_short ? color.new(color.orange, 10) : na
+
+plot(green_low, title='Long Entry', color=entry_plot_color_long, linewidth=3, style=plot.style_cross, trackprice=true)
+plot(exit_type_long_plot, title='Long Exit', color=exit_plot_color_long, linewidth=3, style=plot.style_cross, trackprice=false)
+
+plot(red_high, title='Short Entry', color=entry_plot_color_short, linewidth=3, style=plot.style_cross, trackprice=true)
+plot(exit_type_short_plot, title='Short Exit', color=exit_plot_color_short, linewidth=3, style=plot.style_cross, trackprice=false)
+
+
+///// EXIT PERCENTAGE VALUE
+
+factor = math.pow(10, 1)
+
+entry_value_long = ta.valuewhen(real_entry_long, green_low, 0) * 1.004
+exit_value_long = ta.valuewhen(plot_exit_label_long, exit_type_long_plot, 0)
+trade_percentage1_long = (100 - 100 / (entry_value_long / exit_value_long)) * -1
+trade_percentage_long = int(trade_percentage1_long * factor) / factor
+
+entry_value_short = ta.valuewhen(real_entry_short, red_high, 0) * 0.996
+exit_value_short = ta.valuewhen(real_exit_short, exit_type_short_plot, 0)
+trade_percentage1_short = 100 - 100 / (entry_value_short / exit_value_short)
+trade_percentage_short = int(trade_percentage1_short * factor) / factor
+
+///// STOPLOSS
+
+sl_on_input = input.string(title='StopLoss', defval='Off', options=['On', 'Off'])
+sl_on = sl_on_input == 'On'
+sl_value = input.float(5, title='StopLoss %', step=0.5, minval=0.5)
+
+sl_exit_price_long = entry_value_long * (1-(sl_value / 100))
+sl_exit_price_short = entry_value_short * (1+(sl_value / 100))
+
+sl_exit_long = sl_on and low <= sl_exit_price_long
+sl_exit_short = sl_on and high >= sl_exit_price_short
+
+
+sl_exit_percentage = int((sl_value + 0.4) * -1 * factor) / factor
+
+
+inTrade2 = bool(na)
+inTrade2 := real_entry_long[1] ? true : sl_exit_long[1] ? false : inTrade2[1]
+NotinTrade2 = bool(na)
+NotinTrade2 := sl_exit_long[1] ? true : real_entry_long[1] ? false : NotinTrade2[1]
+
+inTrade3 = bool(na)
+inTrade3 := real_entry_short[1] ? true : sl_exit_short[1] ? false : inTrade3[1]
+NotinTrade3 = bool(na)
+NotinTrade3 := sl_exit_short[1] ? true : real_entry_short[1] ? false : NotinTrade3[1]
+
+plot_exit_label_no_sl_long = sl_on ? inTrade2 : true
+plot_exit_label_no_sl_short = sl_on ? inTrade3 : true
+
+
+///// TAKE PROFIT
+
+tp_on_input = input.string(title='Take Profit', defval='Off', options=['On', 'Off'])
+tp_on = tp_on_input == 'On'
+tp_value = input.float(5, title='Take Profit %', step=0.5, minval=0.5)
+
+tp_exit_price_long = entry_value_long * (1+(tp_value / 100))
+tp_exit_price_short = entry_value_short * (1-(tp_value / 100))
+
+tp_exit_long = tp_on and high >= tp_exit_price_long
+tp_exit_short = tp_on and low <= tp_exit_price_short
+
+tp_exit_percentage = int((tp_value - 0.4) * factor) / factor
+
+inTrade4 = bool(na)
+inTrade4 := real_entry_long[1] ? true : tp_exit_long[1] ? false : inTrade4[1]
+NotinTrade4 = bool(na)
+NotinTrade4 := tp_exit_long[1] ? true : real_entry_long[1] ? false : NotinTrade4[1]
+
+inTrade5 = bool(na)
+inTrade5 := real_entry_short[1] ? true : tp_exit_short[1] ? false : inTrade5[1]
+NotinTrade5 = bool(na)
+NotinTrade5 := tp_exit_short[1] ? true : real_entry_short[1] ? false : NotinTrade5[1]
+
+plot_exit_label_no_tp_long = tp_on ? inTrade4 : true
+plot_exit_label_no_tp_short = tp_on ? inTrade5 : true
+
+true_long_trade = inTrade and plot_exit_label_no_tp_long and plot_exit_label_no_sl_long
+true_short_trade = inTrade1 and plot_exit_label_no_tp_short and plot_exit_label_no_sl_short
+
+
+///// ENTRY & EXIT PLOTSHAPES
+
+entry_label_long_plot = real_entry_long and true_long_trade==false and true_short_trade==false 
+entry_label_short_plot = real_entry_short and true_long_trade==false and true_short_trade==false 
+
+exit_label_long_plot = (plot_exit_label_long and plot_exit_label_no_sl_long and plot_exit_label_no_tp_long) or (sl_exit_long and inTrade2 and inTrade and plot_exit_label_no_tp_long) or (tp_exit_long and inTrade4 and inTrade and plot_exit_label_no_sl_long) 
+exit_label_short_plot = (plot_exit_label_short and plot_exit_label_no_sl_short and plot_exit_label_no_tp_short) or (sl_exit_short and inTrade3 and inTrade1 and plot_exit_label_no_tp_short) or (tp_exit_short and inTrade5 and inTrade1 and plot_exit_label_no_sl_short) 
+
+plotshape(entry_label_long_plot, title='Entry Long', style=shape.labelup, text='Long', textcolor=color.new(color.white, 0), color=color.new(color.aqua, 0), location=location.belowbar, size=size.tiny, editable=false)
+plotshape(entry_label_short_plot, title='Entry Short', style=shape.labeldown, text='Short', textcolor=color.new(color.white, 0), color=color.new(color.purple, 0), location=location.abovebar, size=size.tiny, editable=false)
+
+
+///// EXIT LABELS
+
+tr_perc_long = plot_exit_label_long and plot_exit_label_no_sl_long ? trade_percentage_long : sl_exit_long and inTrade2 and inTrade ? sl_exit_percentage : tp_exit_long and inTrade4 and inTrade ? tp_exit_percentage : 0
+tr_perc_short = plot_exit_label_short and plot_exit_label_no_sl_short ? trade_percentage_short : sl_exit_short and inTrade3 and inTrade1 ? sl_exit_percentage : tp_exit_short and inTrade5 and inTrade1 ? tp_exit_percentage : 0
+trade_exit_percentage_long = fixnan(tr_perc_long)
+trade_exit_percentage_short = fixnan(tr_perc_short)
+
+exit_label_percentage_long = exit_label_long_plot 
+exit_bar_index_long = ta.valuewhen(exit_label_long_plot, bar_index, 0)
+exit_bar_long = ta.barssince(exit_label_long_plot)
+
+exit_label_percentage_short = exit_label_short_plot 
+exit_bar_index_short = ta.valuewhen(exit_label_short_plot, bar_index, 0)
+exit_bar_short = ta.barssince(exit_label_short_plot)
+
+exit_label_color_long_green = trade_exit_percentage_long >= 1 and trade_exit_percentage_long < 10
+exit_label_color_long_lime = trade_exit_percentage_long >= 10
+exit_label_color_long_orange = trade_exit_percentage_long <= 1 and trade_exit_percentage_long > 0
+exit_label_color_long_rouge = trade_exit_percentage_long < 0 and trade_exit_percentage_long >= -1
+exit_label_color_long_red = trade_exit_percentage_long < 0 and trade_exit_percentage_long > -10
+exit_label_color_long_maroon = trade_exit_percentage_long <= -10
+
+exit_label_color_short_green = trade_exit_percentage_short >= 1 and trade_exit_percentage_short < 10
+exit_label_color_short_lime = trade_exit_percentage_short >= 10
+exit_label_color_short_orange = trade_exit_percentage_short <= 1 and trade_exit_percentage_short > 0
+exit_label_color_short_rouge = trade_exit_percentage_short < 0 and trade_exit_percentage_short >= -1
+exit_label_color_short_red = trade_exit_percentage_short < 0 and trade_exit_percentage_short > -10
+exit_label_color_short_maroon = trade_exit_percentage_short <= -10
+
+exit_label_percentage_color_long = exit_label_color_long_lime ? color.lime : exit_label_color_long_green ? color.green : exit_label_color_long_orange ? color.orange : exit_label_color_long_rouge ? #fd6969 : exit_label_color_long_red ? color.red : exit_label_color_long_maroon ? color.maroon : color.gray
+exit_label_percentage_color_short = exit_label_color_short_lime ? color.lime : exit_label_color_short_green ? color.green : exit_label_color_short_orange ? color.orange : exit_label_color_short_rouge ? #fd6969 : exit_label_color_short_red ? color.red : exit_label_color_short_maroon ? color.maroon : color.gray
+
+exit_label_percentage_text_color_long = exit_label_percentage_color_long == color.lime or exit_label_percentage_color_long == #fd6969 or exit_label_percentage_color_long == color.orange ? color.black : color.white
+exit_label_percentage_text_color_short = exit_label_percentage_color_short == color.lime or exit_label_percentage_color_short == #fd6969 or exit_label_percentage_color_short == color.orange ? color.black : color.white
+
+ 
+if exit_label_long_plot 
+    label1 = label.new(bar_index, na, text=str.tostring(trade_exit_percentage_long) + '%', yloc=yloc.abovebar, style=label.style_label_down, color=exit_label_percentage_color_long, textcolor=exit_label_percentage_text_color_long, size=size.small)
+    label1
+
+if exit_label_short_plot 
+    label2 = label.new(bar_index, na, text=str.tostring(trade_exit_percentage_short) + '%', yloc=yloc.belowbar, style=label.style_label_up, color=exit_label_percentage_color_short, textcolor=exit_label_percentage_text_color_short, size=size.small)
+    label2
+
+
+///// CURRENT PERCENTAGE
+
+current_factor = math.pow(10, 2)
+
+current_trade_percentage1_long = (100 - 100 / (entry_value_long / close)) * -1
+current_trade_percentage_long = int(current_trade_percentage1_long * current_factor) / current_factor
+
+current_trade_percentage1_short = 100 - 100 / (entry_value_short / close)
+current_trade_percentage_short = int(current_trade_percentage1_short * current_factor) / current_factor
+
+current_percentage_long = true_long_trade ? current_trade_percentage_long : na
+current_percentage_short = true_short_trade ? current_trade_percentage_short : na
+
+current_exit_label_color_long_green = current_percentage_long >= 1 and current_percentage_long < 10
+current_exit_label_color_long_lime = current_percentage_long >= 10
+current_exit_label_color_long_orange = current_percentage_long <= 1 and current_percentage_long > 0
+current_exit_label_color_long_rouge = current_percentage_long < 0 and current_percentage_long >= -1
+current_exit_label_color_long_red = current_percentage_long < 0 and current_percentage_long > -10
+current_exit_label_color_long_maroon = current_percentage_long <= -10
+
+current_exit_label_color_short_green = current_percentage_short >= 1 and current_percentage_short < 10
+current_exit_label_color_short_lime = current_percentage_short >= 10
+current_exit_label_color_short_orange = current_percentage_short <= 1 and current_percentage_short > 0
+current_exit_label_color_short_rouge = current_percentage_short < 0 and current_percentage_short >= -1
+current_exit_label_color_short_red = current_percentage_short < 0 and current_percentage_short > -10
+current_exit_label_color_short_maroon = current_percentage_short <= -10
+
+current_exit_label_percentage_color_long = current_exit_label_color_long_lime ? color.lime : current_exit_label_color_long_green ? color.green : current_exit_label_color_long_orange ? color.orange : current_exit_label_color_long_rouge ? #fd6969 : current_exit_label_color_long_red ? color.red : current_exit_label_color_long_maroon ? color.maroon : color.gray
+current_exit_label_percentage_color_short = current_exit_label_color_short_lime ? color.lime : current_exit_label_color_short_green ? color.green : current_exit_label_color_short_orange ? color.orange : current_exit_label_color_short_rouge ? #fd6969 : current_exit_label_color_short_red ? color.red : current_exit_label_color_short_maroon ? color.maroon : color.gray
+
+current_exit_label_percentage_text_color_long = current_exit_label_percentage_color_long == color.lime or current_exit_label_percentage_color_long == #fd6969 or current_exit_label_percentage_color_long == color.orange ? color.black : color.white
+current_exit_label_percentage_text_color_short = current_exit_label_percentage_color_short == color.lime or current_exit_label_percentage_color_short == #fd6969 or current_exit_label_percentage_color_short == color.orange ? color.black : color.white
+
+current_x = bar_index + 1
+
+if barstate.isconfirmed == false and true_long_trade and trade_dir_long
+    label3 = label.new(x=current_x, xloc=xloc.bar_index, y=close, text='Long:' + str.tostring(current_percentage_long) + '% (LIVE)', yloc=yloc.price, style=label.style_label_left, color=current_exit_label_percentage_color_long, textcolor=current_exit_label_percentage_text_color_long, size=size.small)
+    label3
+
+if barstate.isrealtime and barstate.islast and true_short_trade and trade_dir_short
+    label4 = label.new(x=current_x, xloc=xloc.bar_index, y=close, text='Short:' + str.tostring(current_percentage_short) + '% (LIVE)', yloc=yloc.price, style=label.style_label_left, color=current_exit_label_percentage_color_short, textcolor=current_exit_label_percentage_text_color_short, size=size.small)
+    label4
+
+current_sl_tp_top = true_short_trade and sl_on ? sl_exit_price_short : true_long_trade and tp_on ? tp_exit_price_long : na
+current_sl_tp_bottom = true_short_trade and tp_on ? tp_exit_price_short : true_long_trade and sl_on ? tp_exit_price_long : na
+current_sl_tp_top_text = true_short_trade and sl_on ? 'SL' : true_long_trade and tp_on ? 'TP' : na
+current_sl_tp_bottom_text = true_short_trade and tp_on ? 'TP' : true_long_trade and sl_on ? 'SL' : na
+current_sl_tp_color_top = true_short_trade and sl_on ? color.red : true_long_trade and tp_on ? color.blue : na
+current_sl_tp_color_bottom = true_short_trade and tp_on ? color.blue : true_long_trade and sl_on ? color.red : na
+
+if barstate.isrealtime and barstate.islast and (true_long_trade or true_short_trade) and sl_on
+    label5 = label.new(bar_index, y=current_sl_tp_top, text=str.tostring(current_sl_tp_top_text), yloc=yloc.price, style=label.style_label_down, color=color.new(current_sl_tp_color_top, 0), textcolor=color.new(color.white, 0), size=size.small)
+    label5
+
+if barstate.isrealtime and barstate.islast and (true_short_trade or true_long_trade) and tp_on
+    label6 = label.new(bar_index, y=current_sl_tp_bottom, text=str.tostring(current_sl_tp_bottom_text), yloc=yloc.price, style=label.style_label_up, color=color.new(current_sl_tp_color_bottom, 0), textcolor=color.new(color.white, 0), size=size.small)
+    label6
+
+
+///// ALERTS
+
+long_entry_alert = entry_label_long_plot
+long_exit_alert = exit_label_long_plot
+
+short_entry_alert = entry_label_short_plot
+short_exit_alert = exit_label_short_plot
+
+
+alertcondition(long_entry_alert, title='Long Entry', message='Long Entry Possibility')
+alertcondition(long_exit_alert, title='Long Exit', message='Long Exit Possibility')
+
+alertcondition(short_entry_alert, title='Short Entry', message='Short Entry Possibility')
+alertcondition(short_exit_alert, title='Short Exit', message='Short Exit Possibility')
+
+
+// If you got any questions or feedback, contact me at trendsniper89@gmail.com
+// If you want to make a donation or offer me a job, also feel free to contact me :)
+// If I used (a part of) your script and didn't give you credit, please contact me so I can credit you !
+
+// The End :)
+

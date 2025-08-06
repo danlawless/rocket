@@ -1,0 +1,147 @@
+// @version=6
+indicator(title='MWhalekiller Support/Resistance Band V12 - Multi-Band Wick Touch Single Trigger', shorttitle='MWhalekiller V12 Wick Multi Trigger', overlay=true)
+
+// Inputs
+len1 = input.int(34, minval=1, title='EMA 34 Length')
+len2 = input.int(21, minval=1, title='SMA 21 Length')
+len3 = input.int(200, minval=1, title='EMA 200 Length')
+lenResetLow = input.int(24, minval=1, title='EMA Reset Low Length')
+lenResetHigh = input.int(31, minval=1, title='EMA Reset High Length')
+
+src1 = input(close, title='EMA 34 Source')
+src2 = input(close, title='SMA 21 Source')
+src3 = input(close, title='EMA 200 Source')
+srcReset = input(close, title='Reset EMAs Source')
+
+// Individual SMA band percentages
+smaPerc1 = input.float(5, title='SMA % Above 1')
+smaPerc2 = input.float(10, title='SMA % Above 2')
+smaPerc3 = input.float(15, title='SMA % Above 3')
+smaPerc4 = input.float(20, title='SMA % Above 4')
+smaPerc5 = input.float(25, title='SMA % Above 5')
+
+// Individual EMA band percentages
+emaPerc1 = input.float(5, title='EMA % Below 1')
+emaPerc2 = input.float(10, title='EMA % Below 2')
+emaPerc3 = input.float(15, title='EMA % Below 3')
+emaPerc4 = input.float(20, title='EMA % Below 4')
+emaPerc5 = input.float(25, title='EMA % Below 5')
+
+ema1 = ta.ema(src1, len1)
+sma1 = ta.sma(src2, len2)
+ema2 = ta.ema(src3, len3)
+emaResetLow = ta.ema(srcReset, lenResetLow)
+emaResetHigh = ta.ema(srcReset, lenResetHigh)
+
+// Calculate band levels
+smaLevel1 = sma1 * (1 + smaPerc1 * 0.01)
+smaLevel2 = sma1 * (1 + smaPerc2 * 0.01)
+smaLevel3 = sma1 * (1 + smaPerc3 * 0.01)
+smaLevel4 = sma1 * (1 + smaPerc4 * 0.01)
+smaLevel5 = sma1 * (1 + smaPerc5 * 0.01)
+
+emaLevel1 = ema1 * (1 - emaPerc1 * 0.01)
+emaLevel2 = ema1 * (1 - emaPerc2 * 0.01)
+emaLevel3 = ema1 * (1 - emaPerc3 * 0.01)
+emaLevel4 = ema1 * (1 - emaPerc4 * 0.01)
+emaLevel5 = ema1 * (1 - emaPerc5 * 0.01)
+
+var bool triggeredLong1 = false
+var bool triggeredLong2 = false
+var bool triggeredLong3 = false
+var bool triggeredLong4 = false
+var bool triggeredLong5 = false
+var bool triggeredShort1 = false
+var bool triggeredShort2 = false
+var bool triggeredShort3 = false
+var bool triggeredShort4 = false
+var bool triggeredShort5 = false
+
+// Reset zone detection (including wick hits)
+resetZone = (low < emaResetHigh and high > emaResetLow) or (close > emaResetLow and close < emaResetHigh)
+wickHitChannel = (high >= emaResetLow and low <= emaResetHigh)
+
+if resetZone
+    triggeredLong1 := false
+    triggeredLong2 := false
+    triggeredLong3 := false
+    triggeredLong4 := false
+    triggeredLong5 := false
+    triggeredShort1 := false
+    triggeredShort2 := false
+    triggeredShort3 := false
+    triggeredShort4 := false
+    triggeredShort5 := false
+
+// Show wick hit indicator close to candles
+plotshape(wickHitChannel, location=location.abovebar, offset=0, style=shape.circle, color=color.orange, size=size.small, title='Wick Hit Reset Channel Near Candle')
+
+// Plot each band and trigger logic
+plot(smaLevel1, color=color.green, linewidth=1)
+plot(smaLevel2, color=color.green, linewidth=1)
+plot(smaLevel3, color=color.green, linewidth=1)
+plot(smaLevel4, color=color.green, linewidth=1)
+plot(smaLevel5, color=color.green, linewidth=1)
+
+plot(emaLevel1, color=color.red, linewidth=1)
+plot(emaLevel2, color=color.red, linewidth=1)
+plot(emaLevel3, color=color.red, linewidth=1)
+plot(emaLevel4, color=color.red, linewidth=1)
+plot(emaLevel5, color=color.red, linewidth=1)
+
+longTouch1 = not triggeredLong1 and high >= smaLevel1
+longTouch2 = not triggeredLong2 and high >= smaLevel2
+longTouch3 = not triggeredLong3 and high >= smaLevel3
+longTouch4 = not triggeredLong4 and high >= smaLevel4
+longTouch5 = not triggeredLong5 and high >= smaLevel5
+
+shortTouch1 = not triggeredShort1 and low <= emaLevel1
+shortTouch2 = not triggeredShort2 and low <= emaLevel2
+shortTouch3 = not triggeredShort3 and low <= emaLevel3
+shortTouch4 = not triggeredShort4 and low <= emaLevel4
+shortTouch5 = not triggeredShort5 and low <= emaLevel5
+
+plotshape(longTouch1, location=location.abovebar, color=color.lime, style=shape.triangleup)
+plotshape(longTouch2, location=location.abovebar, color=color.lime, style=shape.triangleup)
+plotshape(longTouch3, location=location.abovebar, color=color.lime, style=shape.triangleup)
+plotshape(longTouch4, location=location.abovebar, color=color.lime, style=shape.triangleup)
+plotshape(longTouch5, location=location.abovebar, color=color.lime, style=shape.triangleup)
+
+plotshape(shortTouch1, location=location.belowbar, color=color.red, style=shape.triangledown)
+plotshape(shortTouch2, location=location.belowbar, color=color.red, style=shape.triangledown)
+plotshape(shortTouch3, location=location.belowbar, color=color.red, style=shape.triangledown)
+plotshape(shortTouch4, location=location.belowbar, color=color.red, style=shape.triangledown)
+plotshape(shortTouch5, location=location.belowbar, color=color.red, style=shape.triangledown)
+
+if longTouch1
+    triggeredLong1 := true
+if longTouch2
+    triggeredLong2 := true
+if longTouch3
+    triggeredLong3 := true
+if longTouch4
+    triggeredLong4 := true
+if longTouch5
+    triggeredLong5 := true
+
+if shortTouch1
+    triggeredShort1 := true
+if shortTouch2
+    triggeredShort2 := true
+if shortTouch3
+    triggeredShort3 := true
+if shortTouch4
+    triggeredShort4 := true
+if shortTouch5
+    triggeredShort5 := true
+
+plot(ema1, color=color.new(#E1C700, 40), linewidth=1)
+plot(sma1, color=color.new(#E10013, 40), linewidth=1)
+plot(ema2, color=color.new(#0f00e199, 40), linewidth=1)
+plot(emaResetLow, color=color.orange, linewidth=1, title='Reset Channel Low')
+plot(emaResetHigh, color=color.orange, linewidth=1, title='Reset Channel High')
+
+plotshape(ta.crossover(close, ema1), location=location.belowbar, color=color.teal, style=shape.arrowup)
+plotshape(ta.crossunder(close, ema1), location=location.abovebar, color=color.orange, style=shape.arrowdown)
+plotshape(ta.crossover(close, ema2), location=location.belowbar, color=color.blue, style=shape.arrowup)
+plotshape(ta.crossunder(close, ema2), location=location.abovebar, color=color.red, style=shape.arrowdown)
