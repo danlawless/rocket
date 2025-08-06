@@ -1107,79 +1107,161 @@ export const livestreamData = {
 export const xCorrelationData = [
   {
     id: 'x_post_1',
-    account: '@MW_Trades',
+    account: '@GTCInsider',
     timestamp: '3 minutes ago',
-    content: 'SOL breakout confirmed! This is exactly what I was talking about in today\'s stream 🚀',
+    content: 'Korean session heating up on $SOL 🔥 Volume patterns exactly like MW called - this breakout is textbook. Funding rates spiking, retail FOMO incoming 📊',
     tokens: ['SOL'],
     engagement: {
-      likes: 847,
-      retweets: 234,
-      comments: 89
+      likes: 1247,
+      retweets: 389,
+      comments: 156
     },
-    correlationScore: 95, // how well this correlates with stream content
-    streamReference: true, // directly references the stream
+    correlationScore: 98,
+    streamReference: true,
     sentiment: 'bullish'
   },
   {
     id: 'x_post_2',
-    account: '@CryptoTrader_KR',
-    timestamp: '8 minutes ago',  
-    content: 'Korean volume flowing into PEPE just like MW predicted. This guy sees the market!',
-    tokens: ['PEPE'],
+    account: '@MWhalekiller',
+    timestamp: '7 minutes ago',  
+    content: 'DXY collapsing as predicted 💀 MW thesis playing out perfectly. Alt season acceleration incoming - Korean whales positioning heavy 🐋',
+    tokens: ['BTC', 'ETH'],
     engagement: {
-      likes: 312,
-      retweets: 98,
-      comments: 45
+      likes: 892,
+      retweets: 267,
+      comments: 94
     },
-    correlationScore: 88,
+    correlationScore: 94,
     streamReference: true,
     sentiment: 'bullish'
   },
   {
     id: 'x_post_3',
-    account: '@AltcoinGems',
-    timestamp: '12 minutes ago',
-    content: 'ONDO still consolidating, waiting for MW\'s next signal on this one',
-    tokens: ['ONDO'],
+    account: '@GTCInsider',
+    timestamp: '15 minutes ago',
+    content: '$PEPE meme coin rotation beginning. MW indicator showing peak deviation - perfect entry zone for Korean flow patterns 🎯',
+    tokens: ['PEPE'],
     engagement: {
-      likes: 156,
-      retweets: 32,
-      comments: 18
+      likes: 673,
+      retweets: 198,
+      comments: 82
     },
-    correlationScore: 72,
+    correlationScore: 91,
+    streamReference: true,
+    sentiment: 'bullish'
+  },
+  {
+    id: 'x_post_4',
+    account: '@MWhalekiller',
+    timestamp: '23 minutes ago',
+    content: 'L1 altcoins breaking out just like MW analysis predicted 📈 $AVAX, $ATOM setting up for major moves. Chase trading setup activated ⚡',
+    tokens: ['AVAX', 'ATOM'],
+    engagement: {
+      likes: 534,
+      retweets: 143,
+      comments: 67
+    },
+    correlationScore: 87,
+    streamReference: true,
+    sentiment: 'bullish'
+  },
+  {
+    id: 'x_post_5',
+    account: '@GTCInsider',
+    timestamp: '34 minutes ago',
+    content: 'MW thesis on CRYPTO SUPER CYCLE ACCELERATION playing out in real-time 🚀 Macro setup perfect, funding rates euphoric, Korean volume leading',
+    tokens: ['BTC', 'SOL', 'ETH'],
+    engagement: {
+      likes: 1156,
+      retweets: 334,
+      comments: 128
+    },
+    correlationScore: 96,
+    streamReference: true,
+    sentiment: 'bullish'
+  },
+  {
+    id: 'x_post_6',
+    account: '@MWhalekiller',
+    timestamp: '41 minutes ago',
+    content: 'Watching $BONK closely - MW methodology showing extreme channel deviation. Perfect meme coin scalp opportunity if Korean session picks up 👀',
+    tokens: ['BONK'],
+    engagement: {
+      likes: 423,
+      retweets: 87,
+      comments: 34
+    },
+    correlationScore: 83,
     streamReference: true,
     sentiment: 'neutral'
+  },
+  {
+    id: 'x_post_7',
+    account: '@GTCInsider',
+    timestamp: '52 minutes ago',
+    content: 'MW called the S&P weakness perfectly - risk-off to risk-on rotation happening NOW. Focus on L1 tokens with Korean volume leadership 📊',
+    tokens: ['SOL', 'AVAX'],
+    engagement: {
+      likes: 789,
+      retweets: 203,
+      comments: 91
+    },
+    correlationScore: 89,
+    streamReference: true,
+    sentiment: 'bullish'
+  },
+  {
+    id: 'x_post_8',
+    account: '@MWhalekiller',
+    timestamp: '1h 8m ago',
+    content: 'Funding rates at extreme highs - MW warned about this euphoric phase. Scale into meme coins on any dip, Korean whales accumulating heavy 🐋',
+    tokens: ['PEPE', 'BONK', 'WIF'],
+    engagement: {
+      likes: 645,
+      retweets: 156,
+      comments: 73
+    },
+    correlationScore: 85,
+    streamReference: true,
+    sentiment: 'bullish'
   }
 ];
 
 // AI Correlation Analysis
 export const aiCorrelationAnalysis = {
-  overallConfidence: 89,
+  overallConfidence: 94,
   strongCorrelations: [
     {
       token: 'SOL',
       streamMentions: 12,
-      xMentions: 8,
-      correlationStrength: 95,
-      reasoning: 'MW\'s stream analysis directly echoed in community X posts with high engagement'
+      xMentions: 11,
+      correlationStrength: 98,
+      reasoning: '@GTCInsider and @MWhalekiller amplifying MW\'s SOL breakout analysis with Korean volume confirmation'
     },
     {
       token: 'PEPE', 
       streamMentions: 8,
-      xMentions: 15,
-      correlationStrength: 88,
-      reasoning: 'Korean trader community amplifying MW\'s PEPE analysis across X'
+      xMentions: 9,
+      correlationStrength: 91,
+      reasoning: 'Both insider accounts confirming MW\'s meme coin rotation thesis with channel deviation signals'
+    },
+    {
+      token: 'BTC',
+      streamMentions: 15,
+      xMentions: 7,
+      correlationStrength: 96,
+      reasoning: '@MWhalekiller echoing MW\'s crypto super cycle acceleration thesis with macro correlation'
     }
   ],
   
-  trendingUp: ['SOL', 'PEPE'],
-  coolingDown: ['ONDO'],
+  trendingUp: ['SOL', 'PEPE', 'BTC', 'AVAX'],
+  coolingDown: ['BONK'],
   
   dailySummary: {
-    totalTokensTracked: 12,
-    highConfidenceSignals: 5,
-    streamToXCorrelation: 89,
-    averageEngagement: '+23%'
+    totalTokensTracked: 15,
+    highConfidenceSignals: 8,
+    streamToXCorrelation: 94,
+    averageEngagement: '+47%'
   }
 };
 
@@ -1192,7 +1274,7 @@ export const dashboardSummary = {
   todayStats: {
     streamsProcessed: 1,
     tokensTracked: 8,
-    xPostsCorrelated: 24,
+    xPostsCorrelated: 8,
     avgConfidence: 87,
     actionableSignals: 5
   }

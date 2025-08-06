@@ -715,40 +715,151 @@ const MWMonitor = () => {
 
   return (
     <div className="mw-monitor">
-      {/* Header */}
+      {/* Hyper-Optimized Multi-Line Macro Header */}
       <motion.header 
-        className="monitor-header"
+        className="macro-overview-header"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        <div className="header-content">
-          <div className="header-left">
-            <div className="logo">
-              <div className="logo-icon">📊</div>
-              <div>
-                <h1>MW Monitor</h1>
-                <span>Simple Token Tracking</span>
+        <div className="macro-container">
+          
+          {/* Row 1: Market Regime - PUMPING Indicator */}
+          <div className="macro-row regime-row">
+            <div className="regime-compact" style={{ borderColor: getRegimeColor(macroMarketData.marketRegime.current) }}>
+              {getRegimeIcon(macroMarketData.marketRegime.current)}
+              <span className="regime-text" style={{ color: getRegimeColor(macroMarketData.marketRegime.current) }}>
+                {macroMarketData.marketRegime.current}
+              </span>
+              <span className="regime-strength">{macroMarketData.marketRegime.strength}%</span>
+              <span className="regime-duration">📅 {macroMarketData.marketRegime.duration}</span>
+            </div>
+          </div>
+
+          {/* Row 2: MW Thesis - Crypto Super Cycle Banner */}
+          <div className="macro-row thesis-row">
+            <div className="mw-thesis-compact">
+              <Brain size={12} />
+              <span className="thesis-title">🧠 {macroMarketData.mwMacroThesis.title}</span>
+              <span className="thesis-confidence">📊 {macroMarketData.mwMacroThesis.confidence}%</span>
+            </div>
+          </div>
+
+          {/* Row 3: Core Technical Indicators - DXY, S&P, BTC */}
+          <div className="macro-row indicators-row">
+            <div className="tech-indicators-row">
+              
+              {/* DXY */}
+              <div className="tech-card dxy">
+                <div className="tech-header">
+                  <span className="tech-symbol">💵 DXY</span>
+                  <span className="tech-value">{macroMarketData.macroIndicators.DXY.current}</span>
+                  <span className={`tech-change ${macroMarketData.macroIndicators.DXY.change24h < 0 ? 'negative' : 'positive'}`}>
+                    {macroMarketData.macroIndicators.DXY.change24h > 0 ? '+' : ''}{macroMarketData.macroIndicators.DXY.change24h}
+                  </span>
+                </div>
+                <div className="tech-signals">
+                  {['15m', '1h', '4h'].map((tf) => {
+                    const data = macroMarketData.macroIndicators.DXY.timeframes[tf];
+                    return (
+                      <span key={tf} className={`tf-dot ${data.direction.toLowerCase()}`} title={`${tf}: ${data.direction}`}>
+                        {data.direction === 'BULLISH' ? '🟢' : data.direction === 'BEARISH' ? '🔴' : '🟡'}
+                      </span>
+                    );
+                  })}
+                  <span className="mw-agree">✅ {macroMarketData.macroIndicators.DXY.mwAgreement}%</span>
+                </div>
+              </div>
+
+              {/* S&P 500 */}
+              <div className="tech-card sp500">
+                <div className="tech-header">
+                  <span className="tech-symbol">📈 S&P</span>
+                  <span className="tech-value">{Math.round(macroMarketData.macroIndicators.US500.current/1000)}k</span>
+                  <span className={`tech-change ${macroMarketData.macroIndicators.US500.change24h < 0 ? 'negative' : 'positive'}`}>
+                    {macroMarketData.macroIndicators.US500.change24h > 0 ? '+' : ''}{macroMarketData.macroIndicators.US500.change24h}%
+                  </span>
+                </div>
+                <div className="tech-signals">
+                  {['15m', '1h', '4h'].map((tf) => {
+                    const data = macroMarketData.macroIndicators.US500.timeframes[tf];
+                    return (
+                      <span key={tf} className={`tf-dot ${data.direction.toLowerCase()}`} title={`${tf}: ${data.direction}`}>
+                        {data.direction === 'BULLISH' ? '🟢' : data.direction === 'BEARISH' ? '🔴' : '🟡'}
+                      </span>
+                    );
+                  })}
+                  <span className="mw-agree">✅ {macroMarketData.macroIndicators.US500.mwAgreement}%</span>
+                </div>
+              </div>
+
+              {/* BTC */}
+              <div className="tech-card btc">
+                <div className="tech-header">
+                  <span className="tech-symbol">₿ BTC</span>
+                  <span className="tech-value">{Math.round(macroMarketData.macroIndicators.BTC.current/1000)}k</span>
+                  <span className={`tech-change ${macroMarketData.macroIndicators.BTC.change24h < 0 ? 'negative' : 'positive'}`}>
+                    {macroMarketData.macroIndicators.BTC.change24h > 0 ? '+' : ''}{macroMarketData.macroIndicators.BTC.change24h}%
+                  </span>
+                </div>
+                <div className="tech-signals">
+                  {['15m', '1h', '4h'].map((tf) => {
+                    const data = macroMarketData.macroIndicators.BTC.timeframes[tf];
+                    return (
+                      <span key={tf} className={`tf-dot ${data.direction.toLowerCase()}`} title={`${tf}: ${data.direction}`}>
+                        {data.direction === 'BULLISH' ? '🟢' : data.direction === 'BEARISH' ? '🔴' : '🟡'}
+                      </span>
+                    );
+                  })}
+                  <span className="mw-agree">✅ {macroMarketData.macroIndicators.BTC.mwAgreement}%</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          {/* Row 4: Timing + Stats + Live Time */}
+          <div className="macro-row timing-row">
+            {/* Timing Info */}
+            <div className="timing-compact">
+              <div className="timing-item">
+                <span>🎥</span>
+                <span>{livestreamData.today.duration}</span>
+              </div>
+              <div className="timing-item">
+                <span>🐦</span>
+                <span>{xCorrelationData[0].timestamp}</span>
               </div>
             </div>
-            <div className="time-display">
-              {formatTime(currentTime)}
+
+            {/* Quick Stats */}
+            <div className="stats-compact">
+              <span>🔥 {dashboardSummary.todayStats.tokensTracked}</span>
+              <span>⚡ {dashboardSummary.todayStats.actionableSignals}</span>
+              <span>📈 {dashboardSummary.todayStats.avgConfidence}%</span>
+            </div>
+
+            {/* Live Time */}
+            <div className="live-time-compact">
+              <div className="live-dot"></div>
+              <span>{formatTime(currentTime)}</span>
             </div>
           </div>
-          
-          <div className="header-stats">
-            <div className="stat">
-              <span className="stat-value">{dashboardSummary.todayStats.tokensTracked}</span>
-              <span className="stat-label">Tokens Tracked</span>
+
+          {/* Row 5: Notifications - Alerts & Actions */}
+          <div className="macro-row notifications-row">
+            {/* Critical Alert */}
+            <div className="alert-compact">
+              <AlertTriangle size={12} />
+              <span>⚠️ {macroMarketData.marketAlerts[0] && macroMarketData.marketAlerts[0].message.slice(0, 40)}...</span>
             </div>
-            <div className="stat">
-              <span className="stat-value">{dashboardSummary.todayStats.actionableSignals}</span>
-              <span className="stat-label">Action Signals</span>
-            </div>
-            <div className="stat">
-              <span className="stat-value">{dashboardSummary.todayStats.avgConfidence}%</span>
-              <span className="stat-label">Avg Confidence</span>
+
+            {/* Action Items */}
+            <div className="actions-compact">
+              <Target size={12} />
+              <span>🎯 {macroMarketData.currentState.actionItems.slice(0, 2).join(' • ')}</span>
             </div>
           </div>
+
         </div>
       </motion.header>
 

@@ -314,7 +314,7 @@ export const macroMarketData = {
 
   // MW's Current Macro Thesis
   mwMacroThesis: {
-    title: 'CRYPTO SUPER CYCLE ACCELERATION',
+    title: 'Long Cycle Acceleration',
     confidence: 94,
     timeframe: 'Q1 2025',
     

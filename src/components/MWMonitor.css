@@ -85,9 +85,564 @@
   letter-spacing: 0.5px;
 }
 
+/* Hyper-Optimized Multi-Line Macro Header */
+.macro-overview-header {
+  padding: 0.6rem 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, rgba(26, 26, 46, 0.5) 100%);
+  backdrop-filter: blur(16px);
+}
+
+.macro-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.macro-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.8rem;
+}
+
+/* Top Row Styles */
+.top-row {
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Market Regime - Compact */
+.regime-compact {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 1.2rem;
+  border: 2px solid;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.4);
+  min-width: 220px;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.regime-text {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.regime-strength {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 600;
+}
+
+.regime-duration {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Technical Indicators Row */
+.tech-indicators-row {
+  display: flex;
+  gap: 1rem;
+  flex: 1;
+  justify-content: center;
+  max-width: 600px;
+}
+
+.tech-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  flex: 1;
+  min-width: 140px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.tech-card:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+.tech-header {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.tech-symbol {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #ffffff;
+}
+
+.tech-value {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #ffffff;
+  font-family: 'SF Mono', 'Monaco', monospace;
+}
+
+.tech-change {
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-family: 'SF Mono', 'Monaco', monospace;
+}
+
+.tech-change.positive {
+  color: #00ff88;
+}
+
+.tech-change.negative {
+  color: #ff4444;
+}
+
+.tech-signals {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.tf-dot {
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.mw-agree {
+  font-size: 0.75rem;
+  color: #00ff88;
+  font-weight: 600;
+}
+
+/* Live Time - Compact */
+.live-time-compact {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  font-family: 'SF Mono', 'Monaco', monospace;
+  font-size: 0.8rem;
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Desktop Layout Structure - Organized Rows */
+.macro-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.macro-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+/* Row 1: Market Regime */
+.regime-row {
+  justify-content: center;
+}
+
+/* Row 2: MW Thesis */
+.thesis-row {
+  justify-content: center;
+}
+
+/* Row 3: Technical Indicators */
+.indicators-row {
+  justify-content: center;
+}
+
+/* Row 4: Timing Section */
+.timing-row {
+  justify-content: center;
+  gap: 2rem;
+}
+
+/* Row 5: Notifications */
+.notifications-row {
+  justify-content: center;
+  gap: 2rem;
+}
+
+/* MW Thesis - Compact */
+.mw-thesis-compact {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 1.2rem;
+  background: rgba(0, 255, 136, 0.15);
+  border-radius: 10px;
+  border: 2px solid rgba(0, 255, 136, 0.3);
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 255, 136, 0.1);
+  width: fit-content;
+  white-space: nowrap;
+}
+
+.thesis-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.thesis-confidence {
+  font-size: 0.8rem;
+  color: #00ff88;
+  font-weight: 700;
+}
+
+/* Timing - Compact */
+.timing-compact {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.timing-compact .timing-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.8rem;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 600;
+}
+
+/* Alert - Compact */
+.alert-compact {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 170, 0, 0.15);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 170, 0, 0.4);
+  font-size: 0.8rem;
+  color: #ffaa00;
+  min-width: 280px;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(255, 170, 0, 0.1);
+}
+
+/* Actions - Compact */
+.actions-compact {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(0, 153, 255, 0.15);
+  border-radius: 8px;
+  border: 1px solid rgba(0, 153, 255, 0.4);
+  font-size: 0.8rem;
+  color: #0099ff;
+  min-width: 300px;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 153, 255, 0.1);
+}
+
+/* Stats - Compact */
+.stats-compact {
+  display: flex;
+  gap: 0.8rem;
+  padding: 0.4rem 0.8rem;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.stats-compact span {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-weight: 600;
+  padding: 0.2rem 0.4rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+/* Live Dot Animation */
+.live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ff4444;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.7);
+  }
+  
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 8px rgba(255, 68, 68, 0);
+  }
+  
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(255, 68, 68, 0);
+  }
+}
+
+/* Desktop Large Screens */
+@media (min-width: 1400px) {
+  .top-row {
+    gap: 2rem;
+  }
+  
+  .bottom-row {
+    gap: 2rem;
+  }
+  
+  .regime-compact {
+    min-width: 250px;
+    padding: 0.7rem 1.4rem;
+  }
+  
+  .mw-thesis-compact {
+    padding: 0.7rem 1.4rem;
+  }
+  
+  .tech-card {
+    min-width: 160px;
+    padding: 0.6rem 1.2rem;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .macro-container {
+    gap: 0.4rem;
+  }
+  
+  .macro-row {
+    gap: 0.8rem;
+  }
+  
+  .tech-indicators-row {
+    gap: 0.6rem;
+  }
+  
+  .regime-compact {
+    min-width: 200px;
+    padding: 0.5rem 1rem;
+  }
+  
+  .mw-thesis-compact {
+    padding: 0.5rem 1rem;
+  }
+  
+  .tech-card {
+    min-width: 120px;
+    padding: 0.4rem 0.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .macro-overview-header {
+    padding: 0.5rem 1rem;
+  }
+  
+  .macro-container {
+    gap: 0.4rem;
+  }
+  
+  /* MOBILE RESTRUCTURE - Keep mobile order intact */
+  
+  /* 1. PUMPING/DUMPING - Full Width at Top */
+  .regime-compact {
+    width: 100%;
+    justify-content: center;
+    min-width: auto;
+    padding: 0.4rem 0.8rem;
+  }
+  
+  /* 2. CRYPTO SUPER CYCLE BANNER - Full Width Second */
+  .mw-thesis-compact {
+    width: 100%;
+    justify-content: center;
+    margin: 0;
+    min-width: auto;
+    padding: 0.4rem 0.8rem;
+    white-space: normal;
+  }
+  
+  /* 3. DXY, S&P, BTC - Third Row */
+  .tech-indicators-row {
+    width: 100%;
+    justify-content: space-between;
+    gap: 0.3rem;
+  }
+  
+  .tech-card {
+    flex: 1;
+    min-width: 100px;
+    padding: 0.4rem 0.6rem;
+  }
+  
+  /* 4. TIMING ROW - All on one line together */
+  .timing-row {
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    padding: 0.3rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .timing-compact {
+    display: flex;
+    gap: 0.4rem;
+    flex-shrink: 0;
+  }
+  
+  .stats-compact {
+    display: flex;
+    gap: 0.4rem;
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    padding: 0;
+  }
+  
+  .stats-compact span {
+    background: rgba(255, 255, 255, 0.08);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+  }
+  
+  .live-time-compact {
+    display: none; /* Hide on mobile since we have timing info */
+  }
+  
+  /* 5. Notifications Row - Comments and Notifications */
+  .notifications-row {
+    flex-direction: column;
+    gap: 0.3rem;
+    padding-top: 0.3rem;
+  }
+  
+  .alert-compact {
+    width: 100%;
+    justify-content: center;
+    max-width: none;
+    min-width: auto;
+  }
+  
+  .actions-compact {
+    width: 100%;
+    justify-content: center;
+    max-width: none;
+    min-width: auto;
+  }
+  
+  /* Font size adjustments for mobile */
+  .thesis-title {
+    font-size: 0.75rem;
+  }
+  
+  .timing-compact .timing-item {
+    font-size: 0.65rem;
+    padding: 0.2rem 0.3rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: none;
+  }
+  
+  .stats-compact {
+    font-size: 0.65rem;
+  }
+  
+  .alert-compact,
+  .actions-compact {
+    font-size: 0.65rem;
+    padding: 0.3rem 0.6rem;
+  }
+  
+  /* Keep navigation flexible on mobile */
+  .nav-tabs {
+    justify-content: flex-start;
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .macro-overview-header {
+    padding: 0.4rem 0.8rem;
+  }
+  
+  /* Make ONLY bottom elements more compact - DON'T TOUCH TOP */
+  .mw-thesis-compact,
+  .alert-compact,
+  .actions-compact {
+    padding: 0.2rem 0.4rem;
+  }
+  
+  .thesis-title {
+    font-size: 0.65rem;
+  }
+  
+  .thesis-confidence {
+    font-size: 0.6rem;
+  }
+  
+  .timing-compact .timing-item {
+    font-size: 0.6rem;
+    padding: 0.15rem 0.25rem;
+  }
+  
+  .stats-compact {
+    font-size: 0.6rem;
+    gap: 0.25rem;
+  }
+  
+  .alert-compact,
+  .actions-compact {
+    font-size: 0.6rem;
+  }
+  
+  /* Navigation mobile handling */
+  .nav-tabs {
+    padding: 0 0.8rem;
+    justify-content: flex-start;
+  }
+}
+
 /* Navigation */
 .nav-tabs {
   display: flex;
+  justify-content: center;
   padding: 0 2rem;
   background: rgba(0, 0, 0, 0.2);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
