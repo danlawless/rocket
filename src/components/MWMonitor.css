@@ -1963,17 +1963,34 @@
 .mini-indicators-ticker {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 20px;
-  padding: 12px 24px;
-  overflow-x: auto;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
-  min-width: 100%;
+  padding: 12px 0;
+  overflow: hidden;
+  width: 100%;
+  position: relative;
 }
 
-.mini-indicators-ticker::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+.mini-indicators-scroll {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  animation: scroll-circular 15s linear infinite;
+  white-space: nowrap;
+  padding: 0 24px;
+  width: max-content;
+}
+
+.mini-indicators-ticker:hover .mini-indicators-scroll {
+  animation-play-state: paused;
+}
+
+/* Seamless continuous flow - when first set ends, second set is perfectly positioned */
+@keyframes scroll-circular {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 .mini-indicator {

@@ -718,40 +718,80 @@ const MWMonitor = () => {
       {/* Top Mini Indicators Bar */}
       <div className="top-mini-indicators-bar">
         <div className="mini-indicators-ticker">
-          <div className="mini-indicator btc-mini">
-            <span className="mini-symbol">₿</span>
-            <span className="mini-value">{formatCurrency(macroMarketData.macroIndicators.BTC.current)}</span>
-            <span className={`mini-change ${macroMarketData.macroIndicators.BTC.change24h < 0 ? 'negative' : 'positive'}`}>
-              {macroMarketData.macroIndicators.BTC.change24h > 0 ? '+' : ''}{macroMarketData.macroIndicators.BTC.change24h}%
-            </span>
-          </div>
-          <div className="mini-indicator paxgbtc-mini">
-            <span className="mini-symbol">PAXG/BTC</span>
-            <span className="mini-value">{macroMarketData.macroIndicators.PAXGBTC.current.toFixed(4)}</span>
-            <span className={`mini-change ${macroMarketData.macroIndicators.PAXGBTC.change24h < 0 ? 'negative' : 'positive'}`}>
-              {macroMarketData.macroIndicators.PAXGBTC.change24h > 0 ? '+' : ''}{macroMarketData.macroIndicators.PAXGBTC.change24h.toFixed(4)}
-            </span>
-          </div>
-          <div className="mini-indicator usdtdom-mini">
-            <span className="mini-symbol">USDT.D</span>
-            <span className="mini-value">{macroMarketData.macroIndicators.USDTDOM.current.toFixed(2)}%</span>
-            <span className={`mini-change ${macroMarketData.macroIndicators.USDTDOM.change24h < 0 ? 'negative' : 'positive'}`}>
-              {macroMarketData.macroIndicators.USDTDOM.change24h > 0 ? '+' : ''}{macroMarketData.macroIndicators.USDTDOM.change24h.toFixed(2)}%
-            </span>
-          </div>
-          <div className="mini-indicator dxy-mini">
-            <span className="mini-symbol">DXY</span>
-            <span className="mini-value">{macroMarketData.macroIndicators.DXY.current}</span>
-            <span className={`mini-change ${macroMarketData.macroIndicators.DXY.change24h < 0 ? 'negative' : 'positive'}`}>
-              {macroMarketData.macroIndicators.DXY.change24h > 0 ? '+' : ''}{macroMarketData.macroIndicators.DXY.change24h}
-            </span>
-          </div>
-          <div className="mini-indicator sp500-mini">
-            <span className="mini-symbol">S&P</span>
-            <span className="mini-value">{formatCurrency(macroMarketData.macroIndicators.US500.current)}</span>
-            <span className={`mini-change ${macroMarketData.macroIndicators.US500.change24h < 0 ? 'negative' : 'positive'}`}>
-              {macroMarketData.macroIndicators.US500.change24h > 0 ? '+' : ''}{macroMarketData.macroIndicators.US500.change24h}%
-            </span>
+          <div className="mini-indicators-scroll">
+            {/* First set of indicators */}
+            <div className="mini-indicator btc-mini">
+              <span className="mini-symbol">₿</span>
+              <span className="mini-value">{formatCurrency(macroMarketData.macroIndicators.BTC.current)}</span>
+              <span className={`mini-change ${macroMarketData.macroIndicators.BTC.change24h < 0 ? 'negative' : 'positive'}`}>
+                {macroMarketData.macroIndicators.BTC.change24h > 0 ? '+' : ''}{macroMarketData.macroIndicators.BTC.change24h}%
+              </span>
+            </div>
+            <div className="mini-indicator paxgbtc-mini">
+              <span className="mini-symbol">PAXG/BTC</span>
+              <span className="mini-value">{macroMarketData.macroIndicators.PAXGBTC.current.toFixed(4)}</span>
+              <span className={`mini-change ${macroMarketData.macroIndicators.PAXGBTC.change24h < 0 ? 'negative' : 'positive'}`}>
+                {macroMarketData.macroIndicators.PAXGBTC.change24h > 0 ? '+' : ''}{macroMarketData.macroIndicators.PAXGBTC.change24h.toFixed(4)}
+              </span>
+            </div>
+            <div className="mini-indicator usdtdom-mini">
+              <span className="mini-symbol">USDT.D</span>
+              <span className="mini-value">{macroMarketData.macroIndicators.USDTDOM.current.toFixed(2)}%</span>
+              <span className={`mini-change ${macroMarketData.macroIndicators.USDTDOM.change24h < 0 ? 'negative' : 'positive'}`}>
+                {macroMarketData.macroIndicators.USDTDOM.change24h > 0 ? '+' : ''}{macroMarketData.macroIndicators.USDTDOM.change24h.toFixed(2)}%
+              </span>
+            </div>
+            <div className="mini-indicator dxy-mini">
+              <span className="mini-symbol">DXY</span>
+              <span className="mini-value">{macroMarketData.macroIndicators.DXY.current}</span>
+              <span className={`mini-change ${macroMarketData.macroIndicators.DXY.change24h < 0 ? 'negative' : 'positive'}`}>
+                {macroMarketData.macroIndicators.DXY.change24h > 0 ? '+' : ''}{macroMarketData.macroIndicators.DXY.change24h}
+              </span>
+            </div>
+            <div className="mini-indicator sp500-mini">
+              <span className="mini-symbol">S&P</span>
+              <span className="mini-value">{formatCurrency(macroMarketData.macroIndicators.US500.current)}</span>
+              <span className={`mini-change ${macroMarketData.macroIndicators.US500.change24h < 0 ? 'negative' : 'positive'}`}>
+                {macroMarketData.macroIndicators.US500.change24h > 0 ? '+' : ''}{macroMarketData.macroIndicators.US500.change24h}%
+              </span>
+            </div>
+
+            {/* Seamless continuation - second set follows immediately */}
+            <div className="mini-indicator btc-mini">
+              <span className="mini-symbol">₿</span>
+              <span className="mini-value">{formatCurrency(macroMarketData.macroIndicators.BTC.current)}</span>
+              <span className={`mini-change ${macroMarketData.macroIndicators.BTC.change24h < 0 ? 'negative' : 'positive'}`}>
+                {macroMarketData.macroIndicators.BTC.change24h > 0 ? '+' : ''}{macroMarketData.macroIndicators.BTC.change24h}%
+              </span>
+            </div>
+            <div className="mini-indicator paxgbtc-mini">
+              <span className="mini-symbol">PAXG/BTC</span>
+              <span className="mini-value">{macroMarketData.macroIndicators.PAXGBTC.current.toFixed(4)}</span>
+              <span className={`mini-change ${macroMarketData.macroIndicators.PAXGBTC.change24h < 0 ? 'negative' : 'positive'}`}>
+                {macroMarketData.macroIndicators.PAXGBTC.change24h > 0 ? '+' : ''}{macroMarketData.macroIndicators.PAXGBTC.change24h.toFixed(4)}
+              </span>
+            </div>
+            <div className="mini-indicator usdtdom-mini">
+              <span className="mini-symbol">USDT.D</span>
+              <span className="mini-value">{macroMarketData.macroIndicators.USDTDOM.current.toFixed(2)}%</span>
+              <span className={`mini-change ${macroMarketData.macroIndicators.USDTDOM.change24h < 0 ? 'negative' : 'positive'}`}>
+                {macroMarketData.macroIndicators.USDTDOM.change24h > 0 ? '+' : ''}{macroMarketData.macroIndicators.USDTDOM.change24h.toFixed(2)}%
+              </span>
+            </div>
+            <div className="mini-indicator dxy-mini">
+              <span className="mini-symbol">DXY</span>
+              <span className="mini-value">{macroMarketData.macroIndicators.DXY.current}</span>
+              <span className={`mini-change ${macroMarketData.macroIndicators.DXY.change24h < 0 ? 'negative' : 'positive'}`}>
+                {macroMarketData.macroIndicators.DXY.change24h > 0 ? '+' : ''}{macroMarketData.macroIndicators.DXY.change24h}
+              </span>
+            </div>
+            <div className="mini-indicator sp500-mini">
+              <span className="mini-symbol">S&P</span>
+              <span className="mini-value">{formatCurrency(macroMarketData.macroIndicators.US500.current)}</span>
+              <span className={`mini-change ${macroMarketData.macroIndicators.US500.change24h < 0 ? 'negative' : 'positive'}`}>
+                {macroMarketData.macroIndicators.US500.change24h > 0 ? '+' : ''}{macroMarketData.macroIndicators.US500.change24h}%
+              </span>
+            </div>
           </div>
         </div>
       </div>
